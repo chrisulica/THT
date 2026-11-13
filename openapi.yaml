@@ -1,0 +1,331 @@
+openapi: 3.0.3
+info:
+  title: Treasure Hunt Timișoara API
+  description: API-ul actualizat pentru aplicația web Treasure Hunt Timișoara (React + Node.js), cu suport pentru multiple carduri de bingo prin ID, unicitate username și ștergere prieteni.
+  version: 1.1.0
+servers:
+  - url: http://localhost:5000/api
+    description: Server de dezvoltare local
+
+tags:
+  - name: Users Handling
+    description: Autentificare, profiluri, username unic și gestionare prieteni
+  - name: Treasure Hunt handling
+    description: Gestionarea mai multor carduri de bingo prin ID, verificare locații și galerie
+  - name: AI Integration
+    description: Generarea de locații pe baza preferințelor utilizatorului
+
+paths:
+  # ==========================================
+  # USERS HANDLING
+  # ==========================================
+  /auth/register:
+    post:
+      summary: Înregistrare utilizator nou (cu username unic)
+      tags:
+        - Users Handling
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  example: timisoreanul_vesel
+                  description: Trebuie să fie unic în baza de date
+                email:
+                  type: string
+                  format: email
+                  example: student@e-uvt.ro
+                password:
+                  type: string
+                  format: password
+                  example: parolaSecurizata123
+      responses:
+        '201':
+          description: Utilizator înregistrat cu succes
+        '400':
+          description: Date invalide
+        '409':
+          description: Conflict - Username-ul sau email-ul există deja
+
+  /auth/login:
+    post:
+      summary: Autentificare utilizator
+      tags:
+        - Users Handling
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: student@e-uvt.ro
+                password:
+                  type: string
+                  format: password
+                  example: parolaSecurizata123
+      responses:
+        '200':
+          description: Autentificare reușită (returnează Token JWT)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  username:
+                    type: string
+
+  /users/friends:
+    get:
+      summary: Listează prietenii utilizatorului
+      tags:
+        - Users Handling
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Listă de prieteni
+    post:
+      summary: Adaugă un prieten nou (Add Friend)
+      tags:
+        - Users Handling
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - friendUsername
+              properties:
+                friendUsername:
+                  type: string
+                  example: mihai_geo
+      responses:
+        '200':
+          description: Prieten adăugat cu succes
+
+  /users/friends/{friendId}:
+    delete:
+      summary: Șterge un prieten din listă
+      tags:
+        - Users Handling
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: friendId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID-ul sau username-ul prietenului de șters
+      responses:
+        '200':
+          description: Prieten șters cu succes
+        '404':
+          description: Prietenul nu a fost găsit în listă
+
+  # ==========================================
+  # AI INTEGRATION
+  # ==========================================
+  /ai/generate-locations:
+    post:
+      summary: Generează locații personalizate prin AI pe baza chestionarului
+      tags:
+        - AI Integration
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - stayDays
+                - maxDistance
+                - favoriteMovie
+                - favoriteFood
+                - favoriteDrink
+                - category
+                - hobby
+              properties:
+                stayDays:
+                  type: integer
+                  example: 3
+                maxDistance:
+                  type: number
+                  example: 5.0
+                favoriteMovie:
+                  type: string
+                  example: comedie
+                favoriteFood:
+                  type: string
+                  example: traditional
+                favoriteDrink:
+                  type: string
+                  example: cafea
+                category:
+                  type: string
+                  example: istorie
+                hobby:
+                  type: string
+                  example: citit
+      responses:
+        '200':
+          description: Lista de locații generate de AI
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    locationName:
+                      type: string
+                      example: Piața Unirii
+                    lat:
+                      type: number
+                      example: 45.7597
+                    lng:
+                      type: number
+                      example: 21.2293
+
+  # ==========================================
+  # TREASURE HUNT HANDLING (Multiple Bingos by ID)
+  # ==========================================
+  /hunt/bingos:
+    get:
+      summary: Obține toate cardurile de bingo ale utilizatorului (active și finalizate)
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Listă de carduri bingo asociate utilizatorului
+    post:
+      summary: Creează un nou card de bingo pe baza chestionarului și a zilelor alese
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - stayDays
+                - preferences
+              properties:
+                stayDays:
+                  type: integer
+                  example: 2
+                preferences:
+                  type: object
+      responses:
+        '201':
+          description: Card de bingo nou creat cu succes (returnează noul bingoId)
+
+  /hunt/bingos/{bingoId}:
+    get:
+      summary: Obține detaliile și starea unui card de bingo specific după ID
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: bingoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detaliile cardului de bingo cerut (locații, status vizitat/nevizitat)
+        '404':
+          description: Cardul de bingo nu a fost găsit
+
+  /hunt/bingos/{bingoId}/verify:
+    post:
+      summary: Validează vizita la o locație (poză BeReal + GPS) pentru un anumit bingo
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: bingoId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - locationId
+                - photo
+                - userLat
+                - userLng
+              properties:
+                locationId:
+                  type: string
+                photo:
+                  type: string
+                  format: binary
+                userLat:
+                  type: number
+                userLng:
+                  type: number
+      responses:
+        '200':
+          description: Locație marcată ca vizitată pe acest card de bingo
+        '400':
+          description: Utilizatorul nu este la locație sau poza este invalidă
+
+  /hunt/bingos/{bingoId}/complete:
+    post:
+      summary: Finalizează cardul de bingo specificat și generează poza de album + mesaj
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: bingoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Card finalizat. S-a generat poza de album și mesajul de adevărat timișorean.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
