@@ -1,2 +1,2 @@
-# THT
+THT
 Treasure Hunting Timisoara
