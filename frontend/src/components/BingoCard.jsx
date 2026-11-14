@@ -1,101 +1,62 @@
-/**
- * components/BingoCard.jsx
- * 5×5 BINGO grid. Stamps cells on click. Detects win (row/col/diagonal).
- */
+import './bingoCard.css';
 
-import { useState, useEffect } from 'react';
+export default function BingoCard({
+                                      // Acceptă atât formatul tău (tiles, onTileClick), cât și pe cel din MainPage (locations, onLocationSelect)
+                                      tiles,
+                                      locations,
+                                      selectedId,
+                                      onTileClick,
+                                      onLocationSelect,
+                                  }) {
+    // 1. Preia lista indiferent cum a fost transmisă
+    const rawItems = tiles || locations || [];
+    const handleItemClick = onTileClick || onLocationSelect || (() => {});
 
-const SIZE = 5;
+    // 2. Normalizează fiecare element (suportă atât icon cât și emoji, atât visited cât și free)
+    const normalizedTiles = rawItems.map((item) => ({
+        ...item,
+        id: item.id,
+        name: item.name,
+        icon: item.icon || item.emoji || '📍',
+        visited: Boolean(item.visited || item.free),
+    }));
 
-export default function BingoCard({ locations = [], onLocationSelect }) {
-  const [stamped, setStamped] = useState(new Set());
-  const [winLines, setWinLines] = useState([]);
+    // 3. Calculează progresul (evităm împărțirea la 0 dacă lista e goală)
+    const done = normalizedTiles.filter((t) => t.visited).length;
+    const total = normalizedTiles.length;
+    const progressPercent = total > 0 ? (done / total) * 100 : 0;
 
-  // Auto-stamp FREE SPACE (index 12 = center)
-  useEffect(() => {
-    const freeIdx = locations.findIndex((l) => l.free);
-    if (freeIdx !== -1) {
-      setStamped(new Set([freeIdx]));
-    }
-  }, [locations]);
+    return (
+        <div className="bingo-card">
+            <div className="bingo-progress">
+                <div className="bingo-progress-text">{done}/{total}</div>
+                <div className="bingo-progress-bar">
+                    <div
+                        className="bingo-progress-fill"
+                        style={{ width: `${progressPercent}%` }}
+                    />
+                </div>
+            </div>
 
-  function toggleStamp(idx) {
-    if (locations[idx]?.free) return; // FREE SPACE always stamped
-    const next = new Set(stamped);
-    if (next.has(idx)) { next.delete(idx); } else { next.add(idx); }
-    setStamped(next);
-    checkWin(next);
-    if (!stamped.has(idx) && onLocationSelect) {
-      onLocationSelect(locations[idx]);
-    }
-  }
-
-  function checkWin(s) {
-    const lines = [];
-    // Rows
-    for (let r = 0; r < SIZE; r++) {
-      const row = Array.from({ length: SIZE }, (_, c) => r * SIZE + c);
-      if (row.every((i) => s.has(i))) lines.push(row);
-    }
-    // Cols
-    for (let c = 0; c < SIZE; c++) {
-      const col = Array.from({ length: SIZE }, (_, r) => r * SIZE + c);
-      if (col.every((i) => s.has(i))) lines.push(col);
-    }
-    // Diagonals
-    const d1 = Array.from({ length: SIZE }, (_, i) => i * SIZE + i);
-    const d2 = Array.from({ length: SIZE }, (_, i) => i * SIZE + (SIZE - 1 - i));
-    if (d1.every((i) => s.has(i))) lines.push(d1);
-    if (d2.every((i) => s.has(i))) lines.push(d2);
-    setWinLines(lines);
-  }
-
-  const winSet = new Set(winLines.flat());
-
-  const grid = locations.slice(0, SIZE * SIZE);
-
-  return (
-    <div className="bingo-wrapper">
-      {winLines.length > 0 && (
-        <div className="bingo-win-banner">
-          🎉 BINGO! Ai completat {winLines.length} linie{winLines.length > 1 ? 'i' : ''}!
+            <div className="bingo-grid">
+                {normalizedTiles.map((t, i) => (
+                    <button
+                        key={t.id}
+                        type="button"
+                        className={
+                            'bingo-tile' +
+                            (t.visited ? ' visited' : '') +
+                            (selectedId && t.id === selectedId ? ' selected' : '')
+                        }
+                        onClick={() => handleItemClick(t)}
+                    >
+                        <span className="tile-number">{i + 1}</span>
+                        <span className="tile-icon">{t.icon}</span>
+                        <span className="tile-name">{t.name}</span>
+                        <span className="tile-state">{t.visited ? '✓ Bifat' : 'De vizitat'}</span>
+                    </button>
+                ))}
+            </div>
         </div>
-      )}
-
-      <div className="bingo-header-row">
-        {['B', 'I', 'N', 'G', 'O'].map((letter) => (
-          <div key={letter} className="bingo-letter">{letter}</div>
-        ))}
-      </div>
-
-      <div className="bingo-grid">
-        {grid.map((loc, idx) => {
-          const isStamped = stamped.has(idx);
-          const isWin     = winSet.has(idx);
-          const isFree    = loc.free;
-          return (
-            <button
-              key={loc.id}
-              className={[
-                'bingo-cell',
-                isStamped ? 'stamped' : '',
-                isWin     ? 'win'     : '',
-                isFree    ? 'free'    : '',
-              ].join(' ')}
-              onClick={() => toggleStamp(idx)}
-              title={loc.name}
-            >
-              <span className="cell-emoji">{loc.emoji}</span>
-              <span className="cell-name">{isFree ? 'FREE' : loc.name}</span>
-              {isStamped && !isFree && <span className="stamp">✔</span>}
-            </button>
-          );
-        })}
-      </div>
-
-      <p className="bingo-counter">
-        {stamped.size} / {grid.length} locații vizitate
-      </p>
-    </div>
-  );
+    );
 }

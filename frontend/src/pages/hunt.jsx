@@ -1,10 +1,29 @@
 // 
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import MapView from '../components/map';
-import BingoCard from '../components/bingoCard';
+import BingoCard from '../components/BingoCard';
 import useUserPosition from '../components/useUserPosition';
 import Camera from '../components/camera';
+
+// Pasul 5: Configurare mod demo și prag distanță
+const DEMO_MODE = false; // Setează pe false pentru a cere prezența fizică pe stradă
+const MAX_DISTANCE_METERS = 200; // Prag 200m
+
+// Calculează distanța în metri între două coordonate GPS (Formula Haversine)
+function getDistanceMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371e3; // Raza Pământului în metri
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
 
 // MOCK: forma pe care o vei primi de la getActiveBingo() + locations.json
 const mockTiles = [
@@ -39,29 +58,78 @@ function buildPlaces(tiles) {
 export default function Hunt() {
   const mapRef = useRef(null);
   const { position, error } = useUserPosition();
- const [tiles, setTiles] = useState(mockTiles);
+  const [tiles, setTiles] = useState(() => {
+    const saved = localStorage.getItem('tht_tiles');
+    return saved ? JSON.parse(saved) : mockTiles;
+  });
   const [selectedId, setSelectedId] = useState(null);
+  const [gpsError, setGpsError] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('tht_tiles', JSON.stringify(tiles));
+  }, [tiles]);
 
   const places = buildPlaces(tiles);
   const selected = places.find((p) => p.id === selectedId);
-
+  const isGameComplete = places.length > 0 && places.every((p) => p.visited);
   function selectPlace(p) {
+    setGpsError(null);
     setSelectedId(p.id);
     mapRef.current?.flyToPlace(p);
   }
-// MOCK: va fi înlocuit cu markVisited din src/lib/api.js (Rolul 1)
-async function markVisitedMock(tileId, blob, coords) {
-  await new Promise((r) => setTimeout(r, 800)); // simulează încărcarea
-  console.log('markVisited', tileId, `${Math.round(blob.size / 1024)} KB`, coords);
-}
 
-async function handlePhoto(tile, blob) {
-  const coords = position
-    ? { lat: position.lat, lng: position.lng, accuracy: position.accuracy }
-    : null;
-  await markVisitedMock(tile.id, blob, coords);
-  setTiles((prev) => prev.map((t) => (t.id === tile.id ? { ...t, visited: true } : t)));
-}
+  // MOCK: va fi înlocuit cu markVisited din src/lib/api.js (Rolul 1)
+  async function markVisitedMock(tileId, blob, coords) {
+    await new Promise((r) => setTimeout(r, 800)); // simulează încărcarea
+    console.log('markVisited', tileId, `${Math.round(blob.size / 1024)} KB`, coords);
+  }
+
+  async function handlePhoto(tile, blob) {
+    setGpsError(null);
+
+    // --- Pasul 5: Verificare GPS ---
+    if (!DEMO_MODE) {
+      if (!position) {
+        setGpsError('Nu avem încă locația ta GPS. Asigură-te că ai activat locația.');
+        return;
+      }
+
+      if (position.accuracy > 100) {
+        setGpsError('Semnal GPS slab (acuratețe scăzută). Ieși afară sau așteaptă câteva secunde.');
+        return;
+      }
+
+      const dist = getDistanceMeters(position.lat, position.lng, tile.lat, tile.lng);
+      if (dist > MAX_DISTANCE_METERS) {
+        setGpsError(`Ești la ${dist} m de ${tile.name}. Trebuie să fii la mai puțin de ${MAX_DISTANCE_METERS} m pentru a bifa!`);
+        return;
+      }
+    }
+    // --------------------------------
+
+    const coords = position
+      ? { lat: position.lat, lng: position.lng, accuracy: position.accuracy }
+      : null;
+    await markVisitedMock(tile.id, blob, coords);
+    // În handlePhoto din hunt.jsx:
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      const existingPhotos = JSON.parse(localStorage.getItem('tht_photos') || '[]');
+      existingPhotos.unshift({
+        id: Date.now(),
+        src: base64data,
+        location: tile.name,
+        caption: `Am vizitat ${tile.name}!`,
+        timestamp: new Date().toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })
+      });
+      localStorage.setItem('tht_photos', JSON.stringify(existingPhotos));
+    };
+    reader.readAsDataURL(blob);
+    setTiles((prev) => prev.map((t) => (t.id === tile.id ? { ...t, visited: true } : t)));
+    setSelectedId(null);
+  }
+
   return (
     <div style={{ height: '100dvh', position: 'relative', overflow: 'hidden' }}>
       <MapView
@@ -73,12 +141,13 @@ async function handlePhoto(tile, blob) {
 
       {error && <div className="gps-banner">Nu avem acces la locația ta.</div>}
       <button
-      className="center-btn"
-      disabled={!position}
-      onClick={() => mapRef.current?.centerOnUser()}
-    >
-      {position ? '📍 Centrează-mă' : 'Caut locația…'}
-    </button>
+        className="center-btn"
+        disabled={!position}
+        onClick={() => mapRef.current?.centerOnUser()}
+      >
+        {position ? '📍 Centrează-mă' : 'Caut locația…'}
+      </button>
+
       {!selected && (
         <BingoCard tiles={places} selectedId={selectedId} onTileClick={selectPlace} />
       )}
@@ -103,16 +172,60 @@ async function handlePhoto(tile, blob) {
             {selected.visited ? (
               <div className="panel-visited">✓ Ai bifat deja acest loc</div>
             ) : (
-              // <button
-              //   className="btn-photo"
-              //   onClick={() => console.log('Pasul 4: deschide camera pentru', selected.id)}
-              // >
-              //   📸 Sunt aici, fă poza
-              // </button>
-              <Camera onConfirm={(blob) => handlePhoto(selected, blob)} />
+              <>
+                <Camera onConfirm={(blob) => handlePhoto(selected, blob)} />
+                {gpsError && (
+                  <div style={{
+                    color: '#d93025',
+                    backgroundColor: '#fce8e6',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    ⚠️ {gpsError}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
+      )}
+      {isGameComplete && (
+          <div style={{
+            position: 'absolute',
+            top: '20%',
+            left: '16px',
+            right: '16px',
+            background: 'white',
+            borderRadius: '16px',
+            padding: '24px',
+            textAlign: 'center',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+            zIndex: 2000
+          }}>
+            <h2 style={{ fontSize: '28px', margin: '0 0 8px 0' }}>🎉 BINGO! 🎉</h2>
+            <p>Felicitări! Ai descoperit și fotografiat toate obiectivele din Timișoara!</p>
+            <button
+                style={{
+                  marginTop: '16px',
+                  padding: '12px 20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: '#2e9d5b',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  // Poți reseta traseul sau naviga la galerie
+                  alert('Traseu completat!');
+                }}
+            >
+              Ai terminat vânătoarea!
+            </button>
+          </div>
       )}
     </div>
   );
