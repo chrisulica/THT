@@ -68,7 +68,7 @@ const PRESET_DAYS = [1, 2, 3, 4, 5];
 const PRESET_DISTANCES = [1, 2, 3, 5, 10];
 
 export default function SetupPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, markQuizCompleted } = useAuth();
   const navigate = useNavigate();
 
   const [days, setDays] = useState(2);
@@ -138,10 +138,26 @@ export default function SetupPage() {
         message: data.message,
         createdAt: new Date().toISOString(),
       };
-      localStorage.setItem('tht_hunt_session', JSON.stringify(huntSession));
 
-      // Navighează direct la hartă cu traseul personalizat
-      navigate('/', { state: { huntSession } });
+      // Formatează tile-urile pentru afișarea imediată pe hartă și în BingoCard
+      const generatedTiles = data.locations.map((loc, idx) => ({
+        id: `loc-${loc.id ?? idx}`,
+        location_id: loc.id,
+        name: loc.name,
+        icon: loc.emoji || loc.icon || '📍',
+        lat: loc.coords?.lat ?? loc.lat,
+        lng: loc.coords?.lng ?? loc.lng,
+        blurb: loc.description || loc.blurb || '',
+        visited: false,
+      }));
+
+      localStorage.setItem('tht_hunt_session', JSON.stringify(huntSession));
+      localStorage.setItem('tht_tiles', JSON.stringify(generatedTiles));
+      localStorage.setItem('tht_quiz_completed', 'true');
+      markQuizCompleted?.();
+
+      // Navighează direct la pagina care generează și afișează Harta
+      navigate('/map', { state: { huntSession } });
     } catch (err) {
       console.error('Eroare la generarea traseului AI:', err);
       setError(err.message || 'A apărut o problemă la conectarea cu motorul AI.');

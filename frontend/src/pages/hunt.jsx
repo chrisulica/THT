@@ -1,10 +1,12 @@
 // 
 
 import { useRef, useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MapView from '../components/map';
 import BingoCard from '../components/BingoCard';
 import useUserPosition from '../components/useUserPosition';
 import Camera from '../components/camera';
+import { useAuth } from '../context/AuthContext.jsx';
 
 // Pasul 5: Configurare mod demo și prag distanță
 const DEMO_MODE = false; // Setează pe false pentru a cere prezența fizică pe stradă
@@ -50,18 +52,75 @@ const mockLocations = {
     blurb: 'Una dintre cele mai vechi gări din țară.' },
 };
 
-// unește tile-urile cu detaliile locației
+// unește tile-urile cu detaliile locației (suportă atât mock cât și locații generate din Quiz)
 function buildPlaces(tiles) {
-  return tiles.map((t) => ({ ...t, ...mockLocations[t.location_id] }));
+  return (tiles || []).map((t) => {
+    const mock = mockLocations[t.location_id] || {};
+    return {
+      ...mock,
+      ...t,
+      id: t.id || t.location_id || String(Math.random()),
+      name: t.name || mock.name || 'Obiectiv',
+      icon: t.icon || t.emoji || mock.icon || '📍',
+      lat: t.lat ?? t.coords?.lat ?? mock.lat ?? 45.7537,
+      lng: t.lng ?? t.coords?.lng ?? mock.lng ?? 21.2257,
+      blurb: t.blurb || t.description || mock.blurb || '',
+      visited: Boolean(t.visited),
+    };
+  });
 }
 
 export default function Hunt() {
   const mapRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const { position, error } = useUserPosition();
+
   const [tiles, setTiles] = useState(() => {
-    const saved = localStorage.getItem('tht_tiles');
-    return saved ? JSON.parse(saved) : mockTiles;
+    // 1. Verifică starea primită prin navigare direct din Quiz
+    const session = location.state?.huntSession;
+    if (session?.dayLocations?.length > 0) {
+      return session.dayLocations.map((loc, idx) => ({
+        id: `loc-${loc.id ?? idx}`,
+        location_id: loc.id,
+        name: loc.name,
+        icon: loc.emoji || loc.icon || '📍',
+        lat: loc.coords?.lat ?? loc.lat,
+        lng: loc.coords?.lng ?? loc.lng,
+        blurb: loc.description || loc.blurb || '',
+        visited: Boolean(session.visitedLocations?.includes(loc.id)),
+      }));
+    }
+
+    // 2. Verifică tile-urile salvate în localStorage
+    try {
+      const savedTiles = JSON.parse(localStorage.getItem('tht_tiles'));
+      if (Array.isArray(savedTiles) && savedTiles.length > 0) {
+        return savedTiles;
+      }
+    } catch {}
+
+    // 3. Verifică sesiunea salvată în localStorage
+    try {
+      const savedSession = JSON.parse(localStorage.getItem('tht_hunt_session'));
+      if (savedSession?.dayLocations?.length > 0) {
+        return savedSession.dayLocations.map((loc, idx) => ({
+          id: `loc-${loc.id ?? idx}`,
+          location_id: loc.id,
+          name: loc.name,
+          icon: loc.emoji || loc.icon || '📍',
+          lat: loc.coords?.lat ?? loc.lat,
+          lng: loc.coords?.lng ?? loc.lng,
+          blurb: loc.description || loc.blurb || '',
+          visited: Boolean(savedSession.visitedLocations?.includes(loc.id)),
+        }));
+      }
+    } catch {}
+
+    return mockTiles;
   });
+
   const [selectedId, setSelectedId] = useState(null);
   const [gpsError, setGpsError] = useState(null);
 
@@ -137,6 +196,65 @@ export default function Hunt() {
 
   return (
     <div style={{ height: '100dvh', position: 'relative', overflow: 'hidden' }}>
+      {/* Bară superioară: Navigare la Quiz și Ieșire din cont */}
+      <div style={{
+        position: 'absolute',
+        top: '12px',
+        left: '12px',
+        right: '12px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        zIndex: 1000,
+        pointerEvents: 'none'
+      }}>
+        <button
+          type="button"
+          onClick={() => navigate('/quiz')}
+          style={{
+            pointerEvents: 'auto',
+            background: 'rgba(255, 255, 255, 0.95)',
+            border: '1px solid #e0e0e0',
+            borderRadius: '20px',
+            padding: '8px 14px',
+            fontSize: '13px',
+            fontWeight: '600',
+            color: '#333',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}
+        >
+          🧭 Refă Quiz-ul
+        </button>
+
+        {logout && (
+          <button
+            type="button"
+            onClick={logout}
+            style={{
+              pointerEvents: 'auto',
+              background: 'rgba(255, 255, 255, 0.95)',
+              border: '1px solid #f5c6cb',
+              borderRadius: '20px',
+              padding: '8px 14px',
+              fontSize: '13px',
+              fontWeight: '600',
+              color: '#d93025',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            Ieșire
+          </button>
+        )}
+      </div>
+
       <MapView
         ref={mapRef}
         places={places}

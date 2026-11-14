@@ -30,7 +30,7 @@ export default function AuthPage() {
       } else {
         await register(form.username, form.email, form.password);
       }
-      navigate('/setup');
+      navigate('/quiz');
     } catch (err) {
       setError(err.message);
     } finally {
