@@ -9,8 +9,21 @@ import usersRouter from './users/routes.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Configurare CORS pentru a permite frontend-ului Vite de pe localhost să apeleze backend-ul
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    /^http:\/\/localhost:\d+$/,
+    /^http:\/\/127\.0\.0\.1:\d+$/
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user-id']
+};
+
 // Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

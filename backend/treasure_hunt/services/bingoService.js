@@ -73,11 +73,55 @@ export function getBingoCardById(userId, bingoId) {
 }
 
 /**
+ * Selectează locații variate pentru cardul de bingo, asigurând diversitatea categoriilor.
+ * Regula: maxim 4 locații din aceeași categorie pe un card, iar restul vin din categorii diferite,
+ * respectând ordinea descrescătoare a scorului.
+ * 
+ * @param {Array} rankedLocations Lista de locații sortată descrescător după scor
+ * @param {number} targetCount Numărul de locații dorit (implicit 9 pentru grila 3x3)
+ * @param {number} maxPerCategory Limita maximă din aceeași categorie (implicit 4)
+ * @returns {Array} Lista celor 9 locații variate
+ */
+function selectVariedLocations(rankedLocations, targetCount = 9, maxPerCategory = 4) {
+  const selected = [];
+  const selectedIds = new Set();
+  const categoryCounts = {};
+
+  // Pasul 1: Preluăm în ordinea scorului, respectând limita de maxim 4 per categorie
+  for (const loc of rankedLocations) {
+    if (selected.length >= targetCount) break;
+
+    const category = loc.categorie || 'alta';
+    const currentCount = categoryCounts[category] || 0;
+
+    if (currentCount < maxPerCategory) {
+      selected.push(loc);
+      selectedIds.add(loc.id);
+      categoryCounts[category] = currentCount + 1;
+    }
+  }
+
+  // Pasul 2 (fallback de siguranță): Dacă nu s-au strâns 9 locații din cauza limitei stricte,
+  // completăm cu următoarele cele mai bune locații disponibile în ordinea scorului
+  if (selected.length < targetCount) {
+    for (const loc of rankedLocations) {
+      if (selected.length >= targetCount) break;
+      if (!selectedIds.has(loc.id)) {
+        selected.push(loc);
+        selectedIds.add(loc.id);
+      }
+    }
+  }
+
+  return selected;
+}
+
+/**
  * Creează un nou card de bingo sau returnează cardul activ existent.
  * Respectă regula:
  * 1. Dacă există deja un card activ (nefinalizat), îl returnează pe acesta fără a reseta progresul.
  * 2. Dacă toate cardurile anterioare sunt finalizate și utilizatorul mai are zile, creează următorul card (ziua X).
- * 3. Folosește 9 locații nefolosite anterior (grilă 3x3).
+ * 3. Folosește 9 locații nefolosite anterior (grilă 3x3), variate (maxim 4 din aceeași categorie).
  * 
  * @param {string} userId
  * @param {Object} quizData Datele din quiz (stayDays, preferences etc.)
@@ -119,21 +163,24 @@ export function createOrGetBingoCard(userId, quizData) {
   userState.quizAnswers = flatQuiz;
 
   // 3. Selectăm cele mai bune locații folosind funcțiile de scoring și distanță
-  const rankedLocations = filterAndRankLocations(
+  let rankedLocations = filterAndRankLocations(
     allLocations,
     flatQuiz,
     userState.usedLocationIds
   );
 
-  // Avem nevoie de 9 locații pentru grila 3x3
-  const selectedLocations = rankedLocations.slice(0, 9);
-
-  if (selectedLocations.length < 9) {
-    // Dacă nu avem suficiente locații neutilizate, resetăm istoricul celor folosite ca să putem genera cardul
+  // Dacă nu avem suficiente locații nefolosite pentru o grilă de 9, resetăm istoricul ID-urilor
+  if (rankedLocations.length < 9) {
     userState.usedLocationIds.clear();
-    const fallbackRanked = filterAndRankLocations(allLocations, flatQuiz, userState.usedLocationIds);
-    selectedLocations.push(...fallbackRanked.slice(0, 9 - selectedLocations.length));
+    rankedLocations = filterAndRankLocations(
+      allLocations,
+      flatQuiz,
+      userState.usedLocationIds
+    );
   }
+
+  // Selectăm 9 locații variate: maxim 4 din aceeași categorie, restul din categorii diferite, în ordinea scorului
+  const selectedLocations = selectVariedLocations(rankedLocations, 9, 4);
 
   // Marcăm noile locații ca folosite pentru a nu se repeta în cardurile viitoare
   selectedLocations.forEach(loc => userState.usedLocationIds.add(loc.id));
@@ -227,30 +274,44 @@ export function verifyLocationVisit(userId, bingoId, verificationData) {
     };
   }
 
-  // Verificăm coordonatele utilizatorului
-  const latNum = Number(userLat);
-  const lngNum = Number(userLng);
-
-  if (isNaN(latNum) || isNaN(lngNum)) {
+  // Verificăm dacă poza este prezentă (necesară pentru validarea vizitei)
+  if (!photo || (typeof photo === 'string' && photo.trim() === '')) {
     return {
       success: false,
       status: 400,
-      error: 'Coordonatele utilizatorului (userLat, userLng) sunt obligatorii și trebuie să fie numere valide.'
+      error: 'Poza este obligatorie pentru validarea vizitei la locație.'
     };
   }
 
-  // Calculăm distanța față de locație cu formula Haversine
-  const distance = calculateDistanceKm(latNum, lngNum, targetLocation.lat, targetLocation.lng);
+  // Verificăm dacă suntem în modul DEMO (DEMO_MODE=true în .env)
+  const isDemoMode = process.env.DEMO_MODE === 'true';
 
-  // Marjă de toleranță: 0.5 km (500 de metri)
-  const MAX_TOLERANCE_KM = 0.5;
+  // În afara modului DEMO, verificăm obligatoriu distanța GPS (max 500 m)
+  if (!isDemoMode) {
+    const latNum = Number(userLat);
+    const lngNum = Number(userLng);
 
-  if (distance > MAX_TOLERANCE_KM) {
-    return {
-      success: false,
-      status: 400,
-      error: `Ești prea departe de ${targetLocation.name}. Distanța curentă este de ${distance.toFixed(2)} km (maxim permis: ${MAX_TOLERANCE_KM} km).`
-    };
+    if (isNaN(latNum) || isNaN(lngNum)) {
+      return {
+        success: false,
+        status: 400,
+        error: 'Coordonatele utilizatorului (userLat, userLng) sunt obligatorii și trebuie să fie numere valide.'
+      };
+    }
+
+    // Calculăm distanța față de locație cu formula Haversine
+    const distance = calculateDistanceKm(latNum, lngNum, targetLocation.lat, targetLocation.lng);
+
+    // Marjă de toleranță: 0.5 km (500 de metri)
+    const MAX_TOLERANCE_KM = 0.5;
+
+    if (distance > MAX_TOLERANCE_KM) {
+      return {
+        success: false,
+        status: 400,
+        error: `Ești prea departe de ${targetLocation.name}. Distanța curentă este de ${distance.toFixed(2)} km (maxim permis: ${MAX_TOLERANCE_KM} km).`
+      };
+    }
   }
 
   // Marcăm locația ca vizitată
