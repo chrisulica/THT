@@ -50,14 +50,99 @@ function getUserState(userId) {
 }
 
 /**
- * Returnează toate cardurile de bingo ale utilizatorului (active și finalizate).
+ * Returnează toate cardurile de bingo ale utilizatorului (active și finalizate),
+ * opțional filtrate după status ('active' sau 'completed').
  * 
  * @param {string} userId
+ * @param {string} [status] Filtru opțional: 'active' sau 'completed'
  * @returns {Array} Lista de carduri
  */
-export function getAllBingoCards(userId) {
+export function getAllBingoCards(userId, status) {
   const userState = getUserState(userId);
+  if (status === 'active') {
+    return userState.cards.filter(card => !card.completed);
+  }
+  if (status === 'completed') {
+    return userState.cards.filter(card => card.completed);
+  }
   return userState.cards;
+}
+
+/**
+ * Returnează cardul activ (nefinalizat) al utilizatorului, dacă există.
+ * 
+ * @param {string} userId
+ * @returns {Object | null} Cardul activ sau null dacă nu există
+ */
+export function getActiveBingoCard(userId) {
+  const userState = getUserState(userId);
+  if (userState.activeCardId) {
+    const card = userState.cards.find(c => c.bingoId === userState.activeCardId && !c.completed);
+    if (card) return card;
+  }
+  // Căutare fallback: primul card nefinalizat
+  return userState.cards.find(card => !card.completed) || null;
+}
+
+/**
+ * Returnează lista tuturor cardurilor de bingo anterioare (finalizate).
+ * 
+ * @param {string} userId
+ * @returns {Array} Lista cardurilor completate
+ */
+export function getCompletedBingoCards(userId) {
+  const userState = getUserState(userId);
+  return userState.cards.filter(card => card.completed);
+}
+
+/**
+ * Colectează toate pozele utilizatorului (galeria personală):
+ * - Poze de la locațiile vizitate (BeReal)
+ * - Poze de album generate la finalizarea fiecărui card
+ * 
+ * @param {string} userId
+ * @returns {Object} Galeria cu totalul și listele de poze
+ */
+export function getUserGallery(userId) {
+  const userState = getUserState(userId);
+
+  const locationPhotos = [];
+  const albumPhotos = [];
+
+  for (const card of userState.cards) {
+    // Poze de album (pentru cardurile finalizate)
+    if (card.completed && card.albumPhoto) {
+      albumPhotos.push({
+        bingoId: card.bingoId,
+        dayNumber: card.dayNumber,
+        photoUrl: card.albumPhoto,
+        completionMessage: card.completionMessage,
+        completedAt: card.completedAt
+      });
+    }
+
+    // Pozele vizitelor la locații
+    for (const loc of card.locations) {
+      if (loc.visited && loc.photoUrl) {
+        locationPhotos.push({
+          bingoId: card.bingoId,
+          dayNumber: card.dayNumber,
+          locationId: loc.locationId,
+          locationName: loc.name,
+          category: loc.category,
+          photoUrl: loc.photoUrl,
+          visitedAt: loc.visitedAt
+        });
+      }
+    }
+  }
+
+  return {
+    userId,
+    totalPhotos: locationPhotos.length + albumPhotos.length,
+    albumPhotos,
+    locationPhotos
+  };
 }
 
 /**
