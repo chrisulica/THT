@@ -2,7 +2,9 @@
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 1000;
   background: #fff; border-radius: 18px 18px 0 0;
   padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -2px 12px rgba(0,0,0,.25);
+  box-shadow: 0 -2px 16px rgba(0,0,0,.25);
+  max-height: 52dvh;
+  overflow-y: auto;
 }
 
 .bingo-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }

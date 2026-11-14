@@ -1,4 +1,5 @@
 import Hunt from './pages/hunt';
+import SetupPage from './pages/SetupPage';
 import './components/map.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -9,10 +10,16 @@ export default function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            {/* Pagina principală rămâne exact harta colegei tale */}
+            {/* Pagina principală cu Harta și Bingo AI */}
             <Route path="/" element={<Hunt />} />
+            <Route path="/hunt" element={<Hunt />} />
+            <Route path="/main" element={<Hunt />} />
 
-            {/* Pagina ta de Login/Register */}
+            {/* Pagina de Quiz / Setup preferințe */}
+            <Route path="/setup" element={<SetupPage />} />
+            <Route path="/quiz" element={<SetupPage />} />
+
+            {/* Pagina de Login/Register */}
             <Route path="/auth" element={<AuthPage />} />
           </Routes>
         </BrowserRouter>

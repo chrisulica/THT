@@ -44,3 +44,13 @@ export const huntApi = {
   generateRoute: (body) =>
     request('/treasure_hunt/generate', { method: 'POST', body: JSON.stringify(body) }),
 };
+
+// ── AI Integrations ───────────────────────────────────────────────────────────
+export const aiApi = {
+  generateBingo: (body) =>
+    request('/ai_integrations/generate-bingo', { method: 'POST', body: JSON.stringify(body) }),
+  getEvents: (month) =>
+    request(`/ai_integrations/events${month ? `?month=${month}` : ''}`),
+  getCompletionMessage: (body) =>
+    request('/ai_integrations/completion-message', { method: 'POST', body: JSON.stringify(body) }),
+};

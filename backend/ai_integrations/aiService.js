@@ -173,47 +173,58 @@ export function scoreLocation(loc, prefs, season) {
   const locDomains = (loc.domeniu || []).map(cleanString);
   const locHobbies = (loc.hobby || []).map(cleanString);
 
-  // 1. Anotimp (+3 dacă se potrivește anotimpul curent sau e marcat "toate")
-  if (locSeasons.includes('toate') || locSeasons.includes(season)) {
-    score += 3;
+  // 1. Hobby (pondere majoră +18 puncte)
+  const matchesHobby = prefs.hobby && locHobbies.some(h => h.includes(prefs.hobby) || prefs.hobby.includes(h));
+  if (matchesHobby) {
+    score += 18;
   }
 
-  // 2. Distanță (+2 dacă se încadrează în limita dorită)
-  if (loc.distantaFataDeCentru <= prefs.distantaMaxima) {
-    score += 2;
+  // 2. Băutură (pondere majoră +16 puncte - cafenea, ceainărie etc.)
+  const matchesDrink = prefs.bautura && locDrinks.some(d => d.includes(prefs.bautura) || prefs.bautura.includes(d));
+  if (matchesDrink) {
+    score += 16;
   }
 
-  // 3. Gen film (+2)
-  if (prefs.genFilm && locFilms.some(f => f.includes(prefs.genFilm) || prefs.genFilm.includes(f))) {
-    score += 2;
-  }
-
-  // 4. Mâncare (+2)
-  if (prefs.tipMancare && locFoods.some(f => f.includes(prefs.tipMancare) || prefs.tipMancare.includes(f))) {
-    score += 2;
-  }
-
-  // 5. Băutură (+2)
-  if (prefs.bautura && locDrinks.some(d => d.includes(prefs.bautura) || prefs.bautura.includes(d))) {
-    score += 2;
-  }
-
-  // 6. Domenii (+1 per potrivire)
-  if (prefs.domenii.length > 0) {
+  // 3. Domenii de interes (+14 puncte per domeniu potrivit)
+  let matchedDomainsCount = 0;
+  if (prefs.domenii && prefs.domenii.length > 0) {
     for (const d of prefs.domenii) {
       if (locDomains.some(ld => ld.includes(d) || d.includes(ld))) {
-        score += 1;
+        score += 14;
+        matchedDomainsCount++;
       }
     }
   }
 
-  // 7. Hobby (+2)
-  if (prefs.hobby && locHobbies.some(h => h.includes(prefs.hobby) || prefs.hobby.includes(h))) {
-    score += 2;
+  // 4. Tip mâncare (+8 puncte)
+  if (prefs.tipMancare && locFoods.some(f => f.includes(prefs.tipMancare) || prefs.tipMancare.includes(f))) {
+    score += 8;
   }
 
-  // Bonus fine-grained pentru locații centrale / accesibile
-  score += Math.max(0, 1.5 - (loc.distantaFataDeCentru / 4));
+  // 5. Gen film (+6 puncte)
+  if (prefs.genFilm && locFilms.some(f => f.includes(prefs.genFilm) || prefs.genFilm.includes(f))) {
+    score += 6;
+  }
+
+  // 6. Bonus sinergie (+6 puncte dacă bifează atât băutura/mâncarea cât și activitatea/domeniul)
+  if (matchesDrink && (matchesHobby || matchedDomainsCount > 0)) {
+    score += 6;
+  }
+
+  // 7. Distanță (+4 dacă e în rază; penalizare ușoară dacă depășește)
+  if (loc.distantaFataDeCentru <= prefs.distantaMaxima) {
+    score += 4;
+  } else {
+    const excess = loc.distantaFataDeCentru - prefs.distantaMaxima;
+    score -= Math.min(6, excess * 1.5);
+  }
+
+  // 8. Anotimp (+3 pentru sezonul curent, +1 pentru toate)
+  if (locSeasons.includes(season)) {
+    score += 3;
+  } else if (locSeasons.includes('toate')) {
+    score += 1;
+  }
 
   return score;
 }

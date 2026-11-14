@@ -5,14 +5,38 @@
     "description": "Parc emblematic din Timișoara, renumit pentru sutele de specii de trandafiri și scena în aer liber de pe malul Begăi.",
     "address": "Str. Academician Alexandru Borza, Timișoara",
     "distantaFataDeCentru": 0.6,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["romantic", "drama"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["ceai", "cafea", "suc"],
-    "domeniu": ["natura", "arta"],
-    "hobby": ["citit", "sport", "crafting"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "romantic",
+      "drama"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "natura",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "sport",
+      "crafting"
+    ],
     "emoji": "🌹",
-    "coords": { "lat": 45.7505, "lng": 21.2325 }
+    "coords": {
+      "lat": 45.7505,
+      "lng": 21.2325
+    }
   },
   {
     "id": 2,
@@ -20,14 +44,36 @@
     "description": "Muzeu impresionant găzduit în Castelul Huniade, cea mai veche clădire din Timișoara (sec. XIV).",
     "address": "Piața Huniade 1, Timișoara",
     "distantaFataDeCentru": 0.2,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "actiune"],
-    "tipMancare": ["traditional", "sarat"],
-    "bautura": ["ceai", "cafea"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "actiune"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "ceai",
+      "cafea"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "🏰",
-    "coords": { "lat": 45.7533, "lng": 21.2272 }
+    "coords": {
+      "lat": 45.7533,
+      "lng": 21.2272
+    }
   },
   {
     "id": 3,
@@ -35,14 +81,34 @@
     "description": "Cel mai înalt edificiu religios din Timișoara (90.5 m), simbolul orașului și capodoperă a arhitecturii neobizantine.",
     "address": "Bd. Regele Ferdinand I, Timișoara",
     "distantaFataDeCentru": 0.3,
-    "anotimp": ["toate", "iarna"],
-    "genFilm": ["drama", "romantic"],
-    "tipMancare": ["traditional", "dulce"],
-    "bautura": ["ceai"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "traditional",
+      "dulce"
+    ],
+    "bautura": [
+      "ceai"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "⛪",
-    "coords": { "lat": 45.7507, "lng": 21.2243 }
+    "coords": {
+      "lat": 45.7507,
+      "lng": 21.2243
+    }
   },
   {
     "id": 4,
@@ -50,14 +116,40 @@
     "description": "Inima barocă a Timișoarei, străjuită de Domul Romano-Catolic, Palatul Baroc și clădiri istorice viu colorate.",
     "address": "Piața Unirii, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["toate", "primavara", "vara", "toamna"],
-    "genFilm": ["romantic", "comedie"],
-    "tipMancare": ["traditional", "sarat", "dulce"],
-    "bautura": ["cafea", "suc", "alcool"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "filme", "crafting"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "romantic",
+      "comedie"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "cafea",
+      "suc",
+      "alcool"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "filme",
+      "crafting"
+    ],
     "emoji": "🏛️",
-    "coords": { "lat": 45.758, "lng": 21.229 }
+    "coords": {
+      "lat": 45.758,
+      "lng": 21.229
+    }
   },
   {
     "id": 5,
@@ -65,14 +157,36 @@
     "description": "Palat cultural monumental proiectat de arhitecții vienezi Helmer și Fellner, situat în Piața Victoriei.",
     "address": "Str. Mărășești 2, Timișoara",
     "distantaFataDeCentru": 0.1,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "comedie", "romantic"],
-    "tipMancare": ["traditional", "sarat"],
-    "bautura": ["cafea", "alcool"],
-    "domeniu": ["arta"],
-    "hobby": ["filme", "citit"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "filme",
+      "citit"
+    ],
     "emoji": "🎭",
-    "coords": { "lat": 45.754, "lng": 21.2258 }
+    "coords": {
+      "lat": 45.754,
+      "lng": 21.2258
+    }
   },
   {
     "id": 6,
@@ -80,14 +194,36 @@
     "description": "Cea mai mare parte din zidul de apărare al vechii cetăți habsburgice, transformat în spațiu expozițional și cafenele.",
     "address": "Str. Martin Luther 4, Timișoara",
     "distantaFataDeCentru": 0.7,
-    "anotimp": ["toate", "toamna", "iarna"],
-    "genFilm": ["actiune", "drama"],
-    "tipMancare": ["traditional", "sarat"],
-    "bautura": ["cafea", "alcool"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["crafting", "filme"],
+    "anotimp": [
+      "toate",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "actiune",
+      "drama"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "crafting",
+      "filme"
+    ],
     "emoji": "🏯",
-    "coords": { "lat": 45.7567, "lng": 21.2355 }
+    "coords": {
+      "lat": 45.7567,
+      "lng": 21.2355
+    }
   },
   {
     "id": 7,
@@ -95,29 +231,73 @@
     "description": "Spațiu creativ independent într-o fostă fabrică de pe malul Begăi, centru vibrant pentru artă, design și comunitate.",
     "address": "Splaiul Peneș Curcanul 4-5, Timișoara",
     "distantaFataDeCentru": 1.8,
-    "anotimp": ["toate", "primavara", "vara"],
-    "genFilm": ["comedie", "drama"],
-    "tipMancare": ["picant", "sarat"],
-    "bautura": ["cafea", "alcool"],
-    "domeniu": ["arta"],
-    "hobby": ["crafting", "filme", "citit"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara"
+    ],
+    "genFilm": [
+      "comedie",
+      "drama"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "crafting",
+      "filme",
+      "citit"
+    ],
     "emoji": "🎨",
-    "coords": { "lat": 45.7561, "lng": 21.2505 }
+    "coords": {
+      "lat": 45.7561,
+      "lng": 21.2505
+    }
   },
   {
     "id": 8,
     "name": "Parcul Regina Maria (Parcul Poporului)",
     "description": "Cel mai vechi parc public din Timișoara (1858), plin de istorie, cu arbori seculari și poartă monumentală de intrare.",
     "address": "Bulevardul 3 August 1919, Timișoara",
-    "distantaFataDeCentru": 1.0,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["comedie", "romantic"],
-    "tipMancare": ["dulce", "sarat"],
-    "bautura": ["suc", "cafea"],
-    "domeniu": ["natura", "stiinta"],
-    "hobby": ["sport", "citit"],
+    "distantaFataDeCentru": 1,
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "natura",
+      "stiinta"
+    ],
+    "hobby": [
+      "sport",
+      "citit"
+    ],
     "emoji": "🏃",
-    "coords": { "lat": 45.7554, "lng": 21.2407 }
+    "coords": {
+      "lat": 45.7554,
+      "lng": 21.2407
+    }
   },
   {
     "id": 9,
@@ -125,14 +305,36 @@
     "description": "Capodopere de artă românească și europeană găzduite în somptuosul Palat Baroc din Piața Unirii.",
     "address": "Piața Unirii 1, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "romantic"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["ceai", "cafea"],
-    "domeniu": ["arta", "istorie"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "cafea"
+    ],
+    "domeniu": [
+      "arta",
+      "istorie"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "🖼️",
-    "coords": { "lat": 45.7582, "lng": 21.2294 }
+    "coords": {
+      "lat": 45.7582,
+      "lng": 21.2294
+    }
   },
   {
     "id": 10,
@@ -140,14 +342,34 @@
     "description": "Cafenea elegantă în inima Pieței Victoriei, perfectă pentru cafea de specialitate cu vedere spre Corso și Teatru.",
     "address": "Piața Victoriei 7, Timișoara",
     "distantaFataDeCentru": 0.2,
-    "anotimp": ["toate", "iarna"],
-    "genFilm": ["romantic", "comedie"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["cafea", "ceai"],
-    "domeniu": ["arta"],
-    "hobby": ["citit", "filme"],
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "romantic",
+      "comedie"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "cafea",
+      "ceai"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "filme"
+    ],
     "emoji": "☕",
-    "coords": { "lat": 45.7525, "lng": 21.2256 }
+    "coords": {
+      "lat": 45.7525,
+      "lng": 21.2256
+    }
   },
   {
     "id": 11,
@@ -155,14 +377,37 @@
     "description": "Local primitor cu preparate tradiționale și bănățene, amplasat pe una dintre străduțele istorice din Cetate.",
     "address": "Str. Florimund Mercy 1, Timișoara",
     "distantaFataDeCentru": 0.3,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "romantic"],
-    "tipMancare": ["picant", "traditional", "sarat"],
-    "bautura": ["alcool", "suc"],
-    "domeniu": ["arta", "istorie"],
-    "hobby": ["citit", "filme"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "picant",
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "alcool",
+      "suc"
+    ],
+    "domeniu": [
+      "arta",
+      "istorie"
+    ],
+    "hobby": [
+      "citit",
+      "filme"
+    ],
     "emoji": "🍲",
-    "coords": { "lat": 45.7568, "lng": 21.2285 }
+    "coords": {
+      "lat": 45.7568,
+      "lng": 21.2285
+    }
   },
   {
     "id": 12,
@@ -170,14 +415,39 @@
     "description": "Stradă pietonală colorată și animată ce unește Piața Victoriei cu Piața Libertății, renumită pentru baldachinul de umbrele.",
     "address": "Str. Alba Iulia, Timișoara",
     "distantaFataDeCentru": 0.2,
-    "anotimp": ["toate", "primavara", "vara", "toamna"],
-    "genFilm": ["comedie", "romantic"],
-    "tipMancare": ["dulce", "sarat", "picant"],
-    "bautura": ["suc", "cafea", "alcool"],
-    "domeniu": ["arta"],
-    "hobby": ["sport", "crafting", "filme"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "suc",
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "sport",
+      "crafting",
+      "filme"
+    ],
     "emoji": "🛍️",
-    "coords": { "lat": 45.7538, "lng": 21.2268 }
+    "coords": {
+      "lat": 45.7538,
+      "lng": 21.2268
+    }
   },
   {
     "id": 13,
@@ -185,14 +455,32 @@
     "description": "Complex sportiv istoric din Timișoara, gazdă pentru meciuri de baschet, handbal și evenimente sportive majore.",
     "address": "Aleea F.C. Ripensia 7, Timișoara",
     "distantaFataDeCentru": 1.8,
-    "anotimp": ["toate", "iarna"],
-    "genFilm": ["actiune"],
-    "tipMancare": ["sarat", "picant"],
-    "bautura": ["suc"],
-    "domeniu": ["stiinta", "natura"],
-    "hobby": ["sport"],
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "actiune"
+    ],
+    "tipMancare": [
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "suc"
+    ],
+    "domeniu": [
+      "stiinta",
+      "natura"
+    ],
+    "hobby": [
+      "sport"
+    ],
     "emoji": "🏊",
-    "coords": { "lat": 45.7445, "lng": 21.2443 }
+    "coords": {
+      "lat": 45.7445,
+      "lng": 21.2443
+    }
   },
   {
     "id": 14,
@@ -200,14 +488,35 @@
     "description": "Parc central cochet situat lângă Tribunalul Timiș, cu alei liniștite, bănci printre arbori și lalele primăvara.",
     "address": "Bd. C.D. Loga, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["drama", "romantic"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["ceai", "suc"],
-    "domeniu": ["natura"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "suc"
+    ],
+    "domeniu": [
+      "natura"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "📖",
-    "coords": { "lat": 45.7508, "lng": 21.2281 }
+    "coords": {
+      "lat": 45.7508,
+      "lng": 21.2281
+    }
   },
   {
     "id": 15,
@@ -215,14 +524,39 @@
     "description": "Centrul cartierului istoric Fabric, concepută în stil neoclasic de inginerii militari austrieci în sec. XVIII.",
     "address": "Piața Traian, Timișoara",
     "distantaFataDeCentru": 1.7,
-    "anotimp": ["toate", "primavara", "vara", "toamna"],
-    "genFilm": ["drama", "romantic", "comedie"],
-    "tipMancare": ["traditional", "sarat"],
-    "bautura": ["cafea", "alcool"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "filme", "crafting"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic",
+      "comedie"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "filme",
+      "crafting"
+    ],
     "emoji": "⛲",
-    "coords": { "lat": 45.7573, "lng": 21.2486 }
+    "coords": {
+      "lat": 45.7573,
+      "lng": 21.2486
+    }
   },
   {
     "id": 16,
@@ -230,14 +564,34 @@
     "description": "Campus studențesc dinamic, bibliotecă modernă UPT și hub pentru inovație inginerească și robotică.",
     "address": "Bd. Vasile Pârvan 2, Timișoara",
     "distantaFataDeCentru": 0.9,
-    "anotimp": ["toate"],
-    "genFilm": ["actiune", "comedie"],
-    "tipMancare": ["picant", "sarat"],
-    "bautura": ["cafea", "suc"],
-    "domeniu": ["stiinta"],
-    "hobby": ["citit", "sport", "crafting"],
+    "anotimp": [
+      "toate"
+    ],
+    "genFilm": [
+      "actiune",
+      "comedie"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "stiinta"
+    ],
+    "hobby": [
+      "citit",
+      "sport",
+      "crafting"
+    ],
     "emoji": "🔬",
-    "coords": { "lat": 45.7473, "lng": 21.2289 }
+    "coords": {
+      "lat": 45.7473,
+      "lng": 21.2289
+    }
   },
   {
     "id": 17,
@@ -245,14 +599,36 @@
     "description": "Oază de natură la marginea orașului, cu alei de alergare, lac și cel mai mare muzeu etnografic în aer liber din vestul țării.",
     "address": "Str. Avram Imbroane 31, Timișoara",
     "distantaFataDeCentru": 3.8,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["actiune", "comedie"],
-    "tipMancare": ["sarat", "traditional"],
-    "bautura": ["suc", "ceai"],
-    "domeniu": ["natura", "stiinta"],
-    "hobby": ["sport", "citit"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune",
+      "comedie"
+    ],
+    "tipMancare": [
+      "sarat",
+      "traditional"
+    ],
+    "bautura": [
+      "suc",
+      "ceai"
+    ],
+    "domeniu": [
+      "natura",
+      "stiinta"
+    ],
+    "hobby": [
+      "sport",
+      "citit"
+    ],
     "emoji": "🌲",
-    "coords": { "lat": 45.7778, "lng": 21.2644 }
+    "coords": {
+      "lat": 45.7778,
+      "lng": 21.2644
+    }
   },
   {
     "id": 18,
@@ -260,14 +636,36 @@
     "description": "Jocuri imersive de evadare cu indicii inteligente, decoruri autentice și scenarii pline de mister.",
     "address": "Str. Augustin Pacha 2, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["actiune", "comedie"],
-    "tipMancare": ["picant", "sarat"],
-    "bautura": ["cafea", "suc"],
-    "domeniu": ["stiinta"],
-    "hobby": ["filme", "crafting", "citit"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune",
+      "comedie"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "stiinta"
+    ],
+    "hobby": [
+      "filme",
+      "crafting",
+      "citit"
+    ],
     "emoji": "🔑",
-    "coords": { "lat": 45.7548, "lng": 21.2295 }
+    "coords": {
+      "lat": 45.7548,
+      "lng": 21.2295
+    }
   },
   {
     "id": 19,
@@ -275,14 +673,36 @@
     "description": "Centru de creație și expresie artistică pentru tineri, găzduind trupe de teatru, seri de muzică și festivaluri culturale.",
     "address": "Bd. Regele Carol I 9, Timișoara",
     "distantaFataDeCentru": 0.8,
-    "anotimp": ["toate", "toamna", "iarna"],
-    "genFilm": ["comedie", "actiune"],
-    "tipMancare": ["picant", "sarat"],
-    "bautura": ["alcool", "suc"],
-    "domeniu": ["arta"],
-    "hobby": ["filme", "muzica", "crafting"],
+    "anotimp": [
+      "toate",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "comedie",
+      "actiune"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat"
+    ],
+    "bautura": [
+      "alcool",
+      "suc"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "filme",
+      "muzica",
+      "crafting"
+    ],
     "emoji": "🎵",
-    "coords": { "lat": 45.7485, "lng": 21.2205 }
+    "coords": {
+      "lat": 45.7485,
+      "lng": 21.2205
+    }
   },
   {
     "id": 20,
@@ -290,14 +710,35 @@
     "description": "Grădina Botanică din zona Cetate, parc protejat cu arbori exotici, alei pietruite și atmosferă de oază verde.",
     "address": "Calea Alexandru Ioan Cuza, Timișoara",
     "distantaFataDeCentru": 0.7,
-    "anotimp": ["primavara", "vara"],
-    "genFilm": ["romantic", "drama"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["ceai", "suc"],
-    "domeniu": ["natura", "stiinta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "primavara",
+      "vara"
+    ],
+    "genFilm": [
+      "romantic",
+      "drama"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "suc"
+    ],
+    "domeniu": [
+      "natura",
+      "stiinta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "🌿",
-    "coords": { "lat": 45.7608, "lng": 21.2255 }
+    "coords": {
+      "lat": 45.7608,
+      "lng": 21.2255
+    }
   },
   {
     "id": 21,
@@ -305,14 +746,32 @@
     "description": "Patinoar sezonier spectaculos în aer liber amenajat în parcul Iulius Gardens, cu lumini festive și muzică.",
     "address": "Str. Aristide Demetriade 1, Timișoara",
     "distantaFataDeCentru": 1.3,
-    "anotimp": ["iarna"],
-    "genFilm": ["comedie", "romantic"],
-    "tipMancare": ["dulce", "sarat"],
-    "bautura": ["ceai", "suc"],
-    "domeniu": ["natura"],
-    "hobby": ["sport"],
+    "anotimp": [
+      "iarna"
+    ],
+    "genFilm": [
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "ceai",
+      "suc"
+    ],
+    "domeniu": [
+      "natura"
+    ],
+    "hobby": [
+      "sport"
+    ],
     "emoji": "⛸️",
-    "coords": { "lat": 45.7661, "lng": 21.2286 }
+    "coords": {
+      "lat": 45.7661,
+      "lng": 21.2286
+    }
   },
   {
     "id": 22,
@@ -320,14 +779,35 @@
     "description": "Librărie independentă de referință în Piața Unirii, spațiu cald de întâlnire literară, cărți alese și ceai fierbinte.",
     "address": "Piața Unirii 11, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "comedie"],
-    "tipMancare": ["dulce", "traditional"],
-    "bautura": ["cafea", "ceai"],
-    "domeniu": ["arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "comedie"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "cafea",
+      "ceai"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "📚",
-    "coords": { "lat": 45.7583, "lng": 21.2302 }
+    "coords": {
+      "lat": 45.7583,
+      "lng": 21.2302
+    }
   },
   {
     "id": 23,
@@ -335,14 +815,37 @@
     "description": "Zonă modernă gastronomică și food hall cu bucătării internaționale, terase panoramice și craft drinks.",
     "address": "Piața Consiliul Europei 2, Timișoara",
     "distantaFataDeCentru": 1.3,
-    "anotimp": ["toate", "iarna"],
-    "genFilm": ["comedie", "actiune"],
-    "tipMancare": ["picant", "sarat", "dulce"],
-    "bautura": ["alcool", "suc", "cafea"],
-    "domeniu": ["arta"],
-    "hobby": ["filme", "sport", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "comedie",
+      "actiune"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "alcool",
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "filme",
+      "sport",
+      "crafting"
+    ],
     "emoji": "🍔",
-    "coords": { "lat": 45.7664, "lng": 21.2275 }
+    "coords": {
+      "lat": 45.7664,
+      "lng": 21.2275
+    }
   },
   {
     "id": 24,
@@ -350,14 +853,34 @@
     "description": "Monument arhitectural neomaur proiectat de Lipót Baumhorn, una dintre cele mai spectaculoase sinagogi din România.",
     "address": "Str. I.L. Caragiale 1, Timișoara",
     "distantaFataDeCentru": 1.5,
-    "anotimp": ["toate", "iarna"],
-    "genFilm": ["drama"],
-    "tipMancare": ["traditional", "dulce"],
-    "bautura": ["ceai", "cafea"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "drama"
+    ],
+    "tipMancare": [
+      "traditional",
+      "dulce"
+    ],
+    "bautura": [
+      "ceai",
+      "cafea"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "✡️",
-    "coords": { "lat": 45.757, "lng": 21.2464 }
+    "coords": {
+      "lat": 45.757,
+      "lng": 21.2464
+    }
   },
   {
     "id": 25,
@@ -365,14 +888,33 @@
     "description": "Faimosul stadion timișorean, legat de marile victorii sportive ale Politehnicii Timișoara.",
     "address": "Str. Ștefan Covaci 1, Timișoara",
     "distantaFataDeCentru": 2.1,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["actiune"],
-    "tipMancare": ["sarat", "picant"],
-    "bautura": ["suc", "alcool"],
-    "domeniu": ["natura"],
-    "hobby": ["sport"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune"
+    ],
+    "tipMancare": [
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "suc",
+      "alcool"
+    ],
+    "domeniu": [
+      "natura"
+    ],
+    "hobby": [
+      "sport"
+    ],
     "emoji": "⚽",
-    "coords": { "lat": 45.7408, "lng": 21.2439 }
+    "coords": {
+      "lat": 45.7408,
+      "lng": 21.2439
+    }
   },
   {
     "id": 26,
@@ -380,14 +922,38 @@
     "description": "Una dintre cele mai vechi piețe din Timișoara, pavată cu cărămidă roșie, găzduind Comenduirea Garnizoanei și statua Sf. Maria.",
     "address": "Piața Libertății, Timișoara",
     "distantaFataDeCentru": 0.1,
-    "anotimp": ["toate", "primavara", "vara", "toamna"],
-    "genFilm": ["comedie", "drama"],
-    "tipMancare": ["dulce", "sarat"],
-    "bautura": ["cafea", "suc"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "sport", "filme"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "drama"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "sport",
+      "filme"
+    ],
     "emoji": "🏛️",
-    "coords": { "lat": 45.7557, "lng": 21.2272 }
+    "coords": {
+      "lat": 45.7557,
+      "lng": 21.2272
+    }
   },
   {
     "id": 27,
@@ -395,14 +961,36 @@
     "description": "Piață istorică recent revitalizată, cu vestigii arheologice vizibile ale marii moschei otomane și bisericii iezuite.",
     "address": "Piața Sfântul Gheorghe, Timișoara",
     "distantaFataDeCentru": 0.2,
-    "anotimp": ["toate", "primavara", "toamna"],
-    "genFilm": ["drama", "actiune"],
-    "tipMancare": ["traditional", "sarat"],
-    "bautura": ["cafea", "ceai"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "actiune"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "ceai"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "🗡️",
-    "coords": { "lat": 45.7562, "lng": 21.2295 }
+    "coords": {
+      "lat": 45.7562,
+      "lng": 21.2295
+    }
   },
   {
     "id": 28,
@@ -410,14 +998,37 @@
     "description": "Transport public pe apă și plimbare pitorească cu vaporașul de-a lungul Canalului Bega, cu terase și muzică pe mal.",
     "address": "Splaiul Tudor Vladimirescu, Timișoara",
     "distantaFataDeCentru": 0.7,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["romantic", "comedie"],
-    "tipMancare": ["sarat", "dulce"],
-    "bautura": ["suc", "alcool", "cafea"],
-    "domeniu": ["natura", "arta"],
-    "hobby": ["sport", "filme"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "romantic",
+      "comedie"
+    ],
+    "tipMancare": [
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "suc",
+      "alcool",
+      "cafea"
+    ],
+    "domeniu": [
+      "natura",
+      "arta"
+    ],
+    "hobby": [
+      "sport",
+      "filme"
+    ],
     "emoji": "⛴️",
-    "coords": { "lat": 45.7516, "lng": 21.233 }
+    "coords": {
+      "lat": 45.7516,
+      "lng": 21.233
+    }
   },
   {
     "id": 29,
@@ -425,14 +1036,38 @@
     "description": "Muzeu inedit amenajat ca un apartament din anii '70-'80, ascuns la demisolul barului artistic Scârț Loc Lejer.",
     "address": "Str. Arhitect László Székely 1, Timișoara",
     "distantaFataDeCentru": 1.4,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["comedie", "drama"],
-    "tipMancare": ["sarat", "traditional"],
-    "bautura": ["ceai", "bere", "cafea"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["crafting", "citit", "filme"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "drama"
+    ],
+    "tipMancare": [
+      "sarat",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "bere",
+      "cafea"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "crafting",
+      "citit",
+      "filme"
+    ],
     "emoji": "📻",
-    "coords": { "lat": 45.7423, "lng": 21.2212 }
+    "coords": {
+      "lat": 45.7423,
+      "lng": 21.2212
+    }
   },
   {
     "id": 30,
@@ -440,14 +1075,35 @@
     "description": "Capodoperă a barocului vienez din sec. XVIII, faimos pentru acustica impecabilă și concertele grandioase de orgă.",
     "address": "Piața Unirii 12, Timișoara",
     "distantaFataDeCentru": 0.4,
-    "anotimp": ["toate", "iarna", "toamna"],
-    "genFilm": ["drama", "romantic"],
-    "tipMancare": ["traditional", "dulce"],
-    "bautura": ["ceai"],
-    "domeniu": ["istorie", "arta"],
-    "hobby": ["citit", "crafting"],
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "traditional",
+      "dulce"
+    ],
+    "bautura": [
+      "ceai"
+    ],
+    "domeniu": [
+      "istorie",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
     "emoji": "🕍",
-    "coords": { "lat": 45.7584, "lng": 21.2312 }
+    "coords": {
+      "lat": 45.7584,
+      "lng": 21.2312
+    }
   },
   {
     "id": 31,
@@ -455,14 +1111,37 @@
     "description": "Fostă cazarmă militară din sec. XVIII redeschisă ca spațiu monumental de artă contemporană și festivaluri urbane.",
     "address": "Str. Vasile Alecsandri 1, Timișoara",
     "distantaFataDeCentru": 0.3,
-    "anotimp": ["toate", "primavara", "vara", "toamna"],
-    "genFilm": ["drama", "comedie"],
-    "tipMancare": ["picant", "sarat"],
-    "bautura": ["cafea", "alcool"],
-    "domeniu": ["arta", "istorie"],
-    "hobby": ["crafting", "filme"],
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "comedie"
+    ],
+    "tipMancare": [
+      "picant",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool"
+    ],
+    "domeniu": [
+      "arta",
+      "istorie"
+    ],
+    "hobby": [
+      "crafting",
+      "filme"
+    ],
     "emoji": "🧱",
-    "coords": { "lat": 45.7575, "lng": 21.2263 }
+    "coords": {
+      "lat": 45.7575,
+      "lng": 21.2263
+    }
   },
   {
     "id": 32,
@@ -470,13 +1149,617 @@
     "description": "Grădină alpină fermecătoare amenajată pe malul stâng al Begăi, cu specii de rocărie, arbuști ornamentali și alei umbroase.",
     "address": "Splaiul Tudor Vladimirescu, Timișoara",
     "distantaFataDeCentru": 0.5,
-    "anotimp": ["primavara", "vara", "toamna"],
-    "genFilm": ["romantic", "drama"],
-    "tipMancare": ["dulce", "sarat"],
-    "bautura": ["ceai", "suc", "cafea"],
-    "domeniu": ["natura", "arta"],
-    "hobby": ["citit", "sport"],
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "romantic",
+      "drama"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "ceai",
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "natura",
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "sport"
+    ],
     "emoji": "🌲",
-    "coords": { "lat": 45.7495, "lng": 21.2228 }
+    "coords": {
+      "lat": 45.7495,
+      "lng": 21.2228
+    }
+  },
+  {
+    "id": 33,
+    "name": "Ovride Specialty Coffee",
+    "description": "Una dintre cele mai apreciate cafenele de specialitate din Timișoara, cu origini alese, cold brew și prăjituri artizanale.",
+    "address": "Str. Lucian Blaga 6, Timișoara",
+    "distantaFataDeCentru": 0.2,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "romantic",
+      "comedie"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "ceai"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "filme"
+    ],
+    "emoji": "☕",
+    "coords": {
+      "lat": 45.7552,
+      "lng": 21.227
+    }
+  },
+  {
+    "id": 34,
+    "name": "Mokum Cafe",
+    "description": "Espresso bar de inspirație olandeză pe strada pietonală Savoya, cu cafea proaspăt prăjită și mic dejun sănătos.",
+    "address": "Str. Eugeniu de Savoya 14, Timișoara",
+    "distantaFataDeCentru": 0.3,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
+    "emoji": "☕",
+    "coords": {
+      "lat": 45.7571,
+      "lng": 21.2287
+    }
+  },
+  {
+    "id": 35,
+    "name": "Garage Cafe",
+    "description": "Loc de referință pentru iubitorii de cafea artizanală, cu atmosferă caldă și selecție internațională de boabe single origin.",
+    "address": "Str. Palanca 2, Timișoara",
+    "distantaFataDeCentru": 0.4,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce"
+    ],
+    "bautura": [
+      "cafea",
+      "ceai"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
+    "emoji": "☕",
+    "coords": {
+      "lat": 45.7578,
+      "lng": 21.2268
+    }
+  },
+  {
+    "id": 36,
+    "name": "Brewno Coffee Bar",
+    "description": "Punct de întâlnire vibrant lângă Piața Unirii, renumit pentru flat white cremos și terasă însorită.",
+    "address": "Piața Unirii 6, Timișoara",
+    "distantaFataDeCentru": 0.4,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara"
+    ],
+    "genFilm": [
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "cafea",
+      "suc"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "citit",
+      "filme"
+    ],
+    "emoji": "☕",
+    "coords": {
+      "lat": 45.7582,
+      "lng": 21.2291
+    }
+  },
+  {
+    "id": 37,
+    "name": "Baza Sportivă 2 UPT",
+    "description": "Complex sportiv universitar ultramodern cu terenuri de tenis, baschet, fotbal, pistă de atletism și bazin olimpic acoperit.",
+    "address": "Str. Prof. Dr. Aurel Păunescu Podeanu 2, Timișoara",
+    "distantaFataDeCentru": 2.1,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune"
+    ],
+    "tipMancare": [
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "suc"
+    ],
+    "domeniu": [
+      "stiinta",
+      "natura"
+    ],
+    "hobby": [
+      "sport"
+    ],
+    "emoji": "🎾",
+    "coords": {
+      "lat": 45.7428,
+      "lng": 21.2465
+    }
+  },
+  {
+    "id": 38,
+    "name": "Pista de Alergare Faleză Bega",
+    "description": "Traseu amenajat pentru jogging și ciclism de-a lungul apei, înconjurat de sălcii și bănci de relaxare.",
+    "address": "Splaiul Tudor Vladimirescu, Timișoara",
+    "distantaFataDeCentru": 0.8,
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune",
+      "romantic"
+    ],
+    "tipMancare": [
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "suc",
+      "ceai"
+    ],
+    "domeniu": [
+      "natura"
+    ],
+    "hobby": [
+      "sport"
+    ],
+    "emoji": "🏃",
+    "coords": {
+      "lat": 45.751,
+      "lng": 21.228
+    }
+  },
+  {
+    "id": 39,
+    "name": "One Move Climbing Gym",
+    "description": "Cea mai mare sală de bouldering și escaladă din Timișoara, cu trasee diverse de cățărat pentru toate nivelurile.",
+    "address": "Str. Gheorghe Lazăr 24, Timișoara",
+    "distantaFataDeCentru": 1.1,
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune"
+    ],
+    "tipMancare": [
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "stiinta"
+    ],
+    "hobby": [
+      "sport",
+      "crafting"
+    ],
+    "emoji": "🧗",
+    "coords": {
+      "lat": 45.7592,
+      "lng": 21.2185
+    }
+  },
+  {
+    "id": 40,
+    "name": "Parcul Copiilor Ion Creangă & Calisthenics",
+    "description": "Parc întins cu alei de alergare umbroase, aparate de fitness în aer liber și docuri de bărci pe Bega.",
+    "address": "Bd. Michelangelo, Timișoara",
+    "distantaFataDeCentru": 0.7,
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "actiune"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "suc"
+    ],
+    "domeniu": [
+      "natura"
+    ],
+    "hobby": [
+      "sport",
+      "crafting"
+    ],
+    "emoji": "🤸",
+    "coords": {
+      "lat": 45.7522,
+      "lng": 21.2358
+    }
+  },
+  {
+    "id": 41,
+    "name": "ExperimentariumTM (Centrul de Știință)",
+    "description": "Centru interactiv fascinant unde vizitatorii testează peste 300 de experimente practice de fizică, optică și robotică.",
+    "address": "Splaiul Spiru Haret 1, Timișoara",
+    "distantaFataDeCentru": 1,
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "actiune",
+      "comedie"
+    ],
+    "tipMancare": [
+      "sarat"
+    ],
+    "bautura": [
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "stiinta"
+    ],
+    "hobby": [
+      "crafting",
+      "citit"
+    ],
+    "emoji": "⚡",
+    "coords": {
+      "lat": 45.746,
+      "lng": 21.2335
+    }
+  },
+  {
+    "id": 42,
+    "name": "Observatorul Astronomic Timișoara",
+    "description": "Locul magic de observare a planetelor și stelelor din Timișoara, cu instrumente astronomice istorice și seri deschise.",
+    "address": "Piața Axente Sever 1, Timișoara",
+    "distantaFataDeCentru": 1.6,
+    "anotimp": [
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "romantic",
+      "drama"
+    ],
+    "tipMancare": [
+      "dulce"
+    ],
+    "bautura": [
+      "ceai"
+    ],
+    "domeniu": [
+      "stiinta",
+      "natura"
+    ],
+    "hobby": [
+      "citit"
+    ],
+    "emoji": "🔭",
+    "coords": {
+      "lat": 45.736,
+      "lng": 21.2285
+    }
+  },
+  {
+    "id": 43,
+    "name": "Muzeul Tehnic al Telecomunicațiilor UPT",
+    "description": "Colecție unică de centrale telefonice vechi, telegrafie și primele computere construite în Banat.",
+    "address": "Bd. Vasile Pârvan 2, Timișoara",
+    "distantaFataDeCentru": 0.9,
+    "anotimp": [
+      "toate",
+      "iarna"
+    ],
+    "genFilm": [
+      "actiune",
+      "drama"
+    ],
+    "tipMancare": [
+      "sarat"
+    ],
+    "bautura": [
+      "cafea"
+    ],
+    "domeniu": [
+      "stiinta",
+      "istorie"
+    ],
+    "hobby": [
+      "citit",
+      "crafting"
+    ],
+    "emoji": "☎️",
+    "coords": {
+      "lat": 45.7475,
+      "lng": 21.2305
+    }
+  },
+  {
+    "id": 44,
+    "name": "Cinema Victoria",
+    "description": "Cinematograf arthouse de tradiție, gazdă pentru premiere de film european, festivaluri internaționale și dezbateri.",
+    "address": "Str. Ciprian Porumbescu 2, Timișoara",
+    "distantaFataDeCentru": 1.3,
+    "anotimp": [
+      "toate",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "drama",
+      "comedie",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "suc",
+      "cafea"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "filme",
+      "citit"
+    ],
+    "emoji": "🎬",
+    "coords": {
+      "lat": 45.7415,
+      "lng": 21.2215
+    }
+  },
+  {
+    "id": 45,
+    "name": "Cinema Timiș",
+    "description": "Cinematograf istoric spectaculos din Piața Victoriei, hub pentru festivaluri de film, concerte acustice și expoziții.",
+    "address": "Piața Victoriei 7, Timișoara",
+    "distantaFataDeCentru": 0.2,
+    "anotimp": [
+      "toate",
+      "iarna",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "actiune",
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "sarat",
+      "dulce"
+    ],
+    "bautura": [
+      "cafea",
+      "alcool",
+      "suc"
+    ],
+    "domeniu": [
+      "arta"
+    ],
+    "hobby": [
+      "filme",
+      "muzica"
+    ],
+    "emoji": "🍿",
+    "coords": {
+      "lat": 45.7529,
+      "lng": 21.2259
+    }
+  },
+  {
+    "id": 46,
+    "name": "Curtea Berarilor Timișoreana",
+    "description": "Restaurant tradițional bănățean amplasat în curtea primei fabrici de bere din România, fondată de prințul Eugeniu de Savoya în 1718.",
+    "address": "Str. Ștefan cel Mare 28, Timișoara",
+    "distantaFataDeCentru": 2,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "comedie",
+      "actiune"
+    ],
+    "tipMancare": [
+      "traditional",
+      "sarat",
+      "picant"
+    ],
+    "bautura": [
+      "alcool",
+      "bere",
+      "suc"
+    ],
+    "domeniu": [
+      "istorie"
+    ],
+    "hobby": [
+      "filme",
+      "sport"
+    ],
+    "emoji": "🍺",
+    "coords": {
+      "lat": 45.7535,
+      "lng": 21.253
+    }
+  },
+  {
+    "id": 47,
+    "name": "Casa Artelor (Galeria Pygmalion)",
+    "description": "Palat baroc din sec. XVIII dedicat meșteșugurilor bănățene, graficii, sculpturii și atelierelor de restaurare.",
+    "address": "Str. Augustin Pacha 8, Timișoara",
+    "distantaFataDeCentru": 0.4,
+    "anotimp": [
+      "toate",
+      "toamna",
+      "iarna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "traditional"
+    ],
+    "bautura": [
+      "ceai",
+      "cafea"
+    ],
+    "domeniu": [
+      "arta",
+      "istorie"
+    ],
+    "hobby": [
+      "crafting",
+      "citit"
+    ],
+    "emoji": "🏺",
+    "coords": {
+      "lat": 45.7562,
+      "lng": 21.23
+    }
+  },
+  {
+    "id": 48,
+    "name": "Galeria Jecza & Grădina de Sculpturi",
+    "description": "Spațiu de artă contemporană de reputație internațională, cu expoziții majore de sculptură, pictură și parc dedicat artei monumentale.",
+    "address": "Calea Martirilor 1989 51/52, Timișoara",
+    "distantaFataDeCentru": 2.7,
+    "anotimp": [
+      "toate",
+      "primavara",
+      "vara",
+      "toamna"
+    ],
+    "genFilm": [
+      "drama",
+      "romantic"
+    ],
+    "tipMancare": [
+      "dulce",
+      "sarat"
+    ],
+    "bautura": [
+      "ceai",
+      "vin"
+    ],
+    "domeniu": [
+      "arta",
+      "natura"
+    ],
+    "hobby": [
+      "crafting",
+      "citit"
+    ],
+    "emoji": "🗿",
+    "coords": {
+      "lat": 45.7285,
+      "lng": 21.238
+    }
   }
 ]

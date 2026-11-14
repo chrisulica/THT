@@ -3,7 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const TIMISOARA = [45.7537, 21.2257];
-const bounds = [ [45.7410, 21.2050] ,  [45.7680, 21.2550]];
+// Limite confortabile ce acoperă întreg municipiul Timișoara și toate punctele de interes
+const bounds = [ [45.7100, 21.1600], [45.8100, 21.3100] ];
 
 function makePinIcon(number, visited) {
   return L.divIcon({
