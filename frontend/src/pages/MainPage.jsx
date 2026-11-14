@@ -99,6 +99,7 @@ export default function MainPage() {
             <BingoCard
               locations={locations}
               onLocationSelect={handleLocationSelect}
+              selectedId={selectedLocation?.id}
             />
           </div>
         )}

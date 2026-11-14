@@ -9,25 +9,21 @@ import usersRouter from './users/userRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'http://localhost:3000',
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, true);
-    }
-  },
+// Configurare CORS pentru apeluri de pe localhost (orice port), cu suport x-user-id și Authorization
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    /^http:\/\/localhost:\d+$/,
+    /^http:\/\/127\.0\.0\.1:\d+$/
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user-id']
+};
+
+// Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,6 +42,7 @@ app.get('/api/health', (req, res) => {
 
 // Module routes
 app.use('/api/ai_integrations', aiIntegrationsRouter);
+app.use('/api/hunt', treasureHuntRouter);
 app.use('/api/treasure_hunt', treasureHuntRouter);
 app.use('/api/users', usersRouter);
 

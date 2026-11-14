@@ -1,0 +1,252 @@
+[
+  {
+    "id": "piata_victoriei",
+    "nume": "Piața Victoriei (Piața Operei)",
+    "descriere": "Inima culturală a Timișoarei, locul unde a izbucnit Revoluția din 1989, flancat de Operă și Catedrală.",
+    "lat": 45.7538,
+    "lng": 21.2257,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arta", "arhitectura", "cafea", "plimbare", "romantic", "comedie"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "piata_unirii",
+    "nume": "Piața Unirii",
+    "descriere": "Cea mai veche piață din Timișoara, în stil baroc, înconjurată de clădiri colorate și cafenele cochete.",
+    "lat": 45.7580,
+    "lng": 21.2289,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arta", "baroc", "cafea", "ceai", "traditional", "crafting", "romantic"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "catedrala_mitropolitana",
+    "nume": "Catedrala Mitropolitană",
+    "descriere": "Simbolul maiestuos al Timișoarei, cu turnuri impresionante acoperite cu țigle smălțuite multicolore.",
+    "lat": 45.7511,
+    "lng": 21.2245,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arta", "arhitectura", "spiritualitate", "citit", "drama"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "parcul_rozelor",
+    "nume": "Parcul Rozelor",
+    "descriere": "Parc renumit pentru miile de soiuri de trandafiri și teatrul de vară în aer liber.",
+    "lat": 45.7508,
+    "lng": 21.2312,
+    "categorie": "natura",
+    "taguri": ["natura", "flori", "sport", "plimbare", "romantic", "dulce", "suc"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "parcul_botanic",
+    "nume": "Parcul Botanic",
+    "descriere": "Oază de liniște cu arbori seculari și specii rare de plante, ideală pentru relaxare și lectură.",
+    "lat": 45.7601,
+    "lng": 21.2241,
+    "categorie": "natura",
+    "taguri": ["natura", "stiinta", "citit", "plimbare", "ceai", "relaxare"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "muzeul_de_arta",
+    "nume": "Muzeul Național de Artă (Palatul Baroc)",
+    "descriere": "Găzduit în impunătorul Palat Baroc din Piața Unirii, expune capodopere de artă bănățeană și europeană.",
+    "lat": 45.7578,
+    "lng": 21.2293,
+    "categorie": "arta",
+    "taguri": ["arta", "istorie", "crafting", "pictura", "ceai", "drama", "filme"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "bastionul_theresia",
+    "nume": "Bastionul Maria Theresia",
+    "descriere": "Cea mai mare parte păstrată din vechea cetate habsburgică, astăzi centru cultural și gastronomic.",
+    "lat": 45.7567,
+    "lng": 21.2343,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arta", "expozitii", "cafea", "alcool", "actiune", "crafting"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "opera_nationala",
+    "nume": "Opera Națională Română",
+    "descriere": "Clădire emblematică din Piața Victoriei, gazdă a operelor și spectacolelor de teatru memorabile.",
+    "lat": 45.7544,
+    "lng": 21.2260,
+    "categorie": "arta",
+    "taguri": ["arta", "teatru", "opera", "filme", "drama", "romantic", "dulce"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "gara_de_nord",
+    "nume": "Gara de Nord",
+    "descriere": "Principala poartă feroviară a orașului, plină de istorie a călătoriilor spre Europa Centrală.",
+    "lat": 45.7483,
+    "lng": 21.2064,
+    "categorie": "istorie",
+    "taguri": ["istorie", "transport", "actiune", "sarat", "cafea", "calatorii"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "castelul_huniade",
+    "nume": "Castelul Huniade",
+    "descriere": "Cea mai veche clădire păstrată din Timișoara, ridicată de Iancu de Hunedoara între 1443 și 1447.",
+    "lat": 45.7531,
+    "lng": 21.2274,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arhitectura", "stiinta", "drama", "citit", "traditional"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "muzeul_satului_banatean",
+    "nume": "Muzeul Satului Bănățean",
+    "descriere": "Muzeu etnografic în aer liber situat la Pădurea Verde, prezentând gospodării autentice din Banat.",
+    "lat": 45.7777,
+    "lng": 21.2647,
+    "categorie": "istorie",
+    "taguri": ["istorie", "traditional", "natura", "crafting", "sarat", "picant", "plimbare"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "iulius_gardens",
+    "nume": "Iulius Gardens (Iulius Town)",
+    "descriere": "Parc suspendat modern cu lac, carusel venețian, restaurante și spații verzi animate.",
+    "lat": 45.7656,
+    "lng": 21.2291,
+    "categorie": "arta",
+    "taguri": ["natura", "cafea", "dulce", "suc", "sport", "filme", "comedie", "shopping"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "fabrica_de_bere",
+    "nume": "Fabrica de Bere Timișoreana",
+    "descriere": "Prima fabrică de bere din România, înființată în 1718 de prințul Eugeniu de Savoia.",
+    "lat": 45.7533,
+    "lng": 21.2505,
+    "categorie": "istorie",
+    "taguri": ["istorie", "traditional", "alcool", "sarat", "picant", "stiinta", "comedie"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "podul_de_fier",
+    "nume": "Podul de Fier (Podul Iuliu Maniu)",
+    "descriere": "Pod metalic pietonal istoric peste Canalul Bega, legat de legenda proiectării sale de către Gustave Eiffel.",
+    "lat": 45.7447,
+    "lng": 21.2132,
+    "categorie": "istorie",
+    "taguri": ["istorie", "inginerie", "stiinta", "romantic", "plimbare", "actiune"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "biserica_millennium",
+    "nume": "Biserica Millennium din Traian",
+    "descriere": "Cea mai mare biserică romano-catolică din Timișoara, ridicată în stil neoromanic la 1896.",
+    "lat": 45.7570,
+    "lng": 21.2483,
+    "categorie": "istorie",
+    "taguri": ["istorie", "arhitectura", "arta", "spiritualitate", "drama", "citit"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "piata_libertatii",
+    "nume": "Piața Libertății",
+    "descriere": "Piață pavată cu cercuri roșii concentrice, faimoasă pentru statuia Sf. Maria și evenimentele muzicale.",
+    "lat": 45.7556,
+    "lng": 21.2272,
+    "categorie": "istorie",
+    "taguri": ["istorie", "muzica", "cafea", "ceai", "crafting", "comedie", "sport"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "sinagoga_din_cetate",
+    "nume": "Sinagoga din Cetate",
+    "descriere": "Capodoperă maură construită între 1863 și 1865 de arhitectul vienez Ignaz Schumann, centru de concerte.",
+    "lat": 45.7562,
+    "lng": 21.2255,
+    "categorie": "arta",
+    "taguri": ["istorie", "arta", "arhitectura", "muzica", "citit", "drama"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "parcul_copiilor",
+    "nume": "Parcul Copiilor «Ion Creangă»",
+    "descriere": "Parc tematic și recreativ pe malul Begăi, plin de zone de joacă și spații vesele.",
+    "lat": 45.7523,
+    "lng": 21.2361,
+    "categorie": "natura",
+    "taguri": ["natura", "sport", "joc", "dulce", "suc", "comedie", "plimbare"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "canalul_bega",
+    "nume": "Canalul Bega - Malul Begăi",
+    "descriere": "Traseu superb pentru promenadă pietonală și pistă de biciclete de-a lungul primului canal navigabil.",
+    "lat": 45.7525,
+    "lng": 21.2280,
+    "categorie": "natura",
+    "taguri": ["natura", "alcool", "cafea", "suc", "sport", "romantic", "muzica", "comedie"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "muzeul_consumatorului_comunist",
+    "nume": "Muzeul Consumatorului Comunist",
+    "descriere": "Amenajat la demisolul unei case din Elisabetin, recreează fidel un apartament complet din era comunistă.",
+    "lat": 45.7408,
+    "lng": 21.2185,
+    "categorie": "istorie",
+    "taguri": ["istorie", "nostalgie", "ceai", "alcool", "traditional", "crafting", "comedie"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "cazarma_u",
+    "nume": "Cazarma U (Fosta Cazarmă Viena)",
+    "descriere": "Spațiu neconvențional pentru expoziții de sculptură contemporană și bienale de artă.",
+    "lat": 45.7594,
+    "lng": 21.2307,
+    "categorie": "arta",
+    "taguri": ["arta", "istorie", "expozitii", "crafting", "filme", "drama"],
+    "sezoane": ["primavara", "vara", "toamna"]
+  },
+  {
+    "id": "planetariul_uvt",
+    "nume": "Planetariul Universității de Vest",
+    "descriere": "Primul planetariu universitar din România, dedicat cerului înstelat, astronomiei și explorării cosmice.",
+    "lat": 45.7472,
+    "lng": 21.2317,
+    "categorie": "stiinta",
+    "taguri": ["stiinta", "astronomie", "citit", "filme", "actiune", "suc"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "experimentarium_tm",
+    "nume": "ExperimentariumTM",
+    "descriere": "Centru interactiv de fizică și știință aplicată unde vizitatorii testează fenomene științifice pe viu.",
+    "lat": 45.7441,
+    "lng": 21.2388,
+    "categorie": "stiinta",
+    "taguri": ["stiinta", "crafting", "experimente", "inginerie", "actiune", "citit"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "piata_traian",
+    "nume": "Piața Traian (Cartierul Fabric)",
+    "descriere": "Centrul istoric al cartierului Fabric, cu arhitectură secession și atmosferă autentică bănățeană.",
+    "lat": 45.7578,
+    "lng": 21.2492,
+    "categorie": "istorie",
+    "taguri": ["istorie", "traditional", "cafea", "alcool", "sarat", "romantic"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  },
+  {
+    "id": "casa_artelor",
+    "nume": "Casa Artelor (Galeria Pygmalion)",
+    "descriere": "Clădire istorică renascentistă ce găzduiește galerii de artă plastică, ateliere și evenimente culturale.",
+    "lat": 45.7573,
+    "lng": 21.2298,
+    "categorie": "arta",
+    "taguri": ["arta", "crafting", "ceai", "cafea", "pictura", "citit"],
+    "sezoane": ["primavara", "vara", "toamna", "iarna"]
+  }
+]
