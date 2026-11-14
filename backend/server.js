@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import aiIntegrationsRouter from './ai_integrations/routes.js';
 import treasureHuntRouter from './treasure_hunt/routes.js';
-import usersRouter from './users/routes.js';
+import usersRouter from './users/userRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
