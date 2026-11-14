@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
-import { filterAndRankLocations } from './scoring.js';
+import { filterAndRankLocations, normalizeQuizPayload } from './scoring.js';
 import { calculateDistanceKm } from './haversine.js';
 import { seedDemoDataIfEnabled } from './demoSeed.js';
 
@@ -228,6 +228,11 @@ export function createOrGetBingoCard(userId, quizData) {
   if (userState.activeCardId) {
     const existingActiveCard = userState.cards.find(c => c.bingoId === userState.activeCardId);
     if (existingActiveCard && !existingActiveCard.completed) {
+      // Ne asigurăm că fiecare locație are id și location_id
+      existingActiveCard.locations.forEach(loc => {
+        if (!loc.id) loc.id = loc.locationId;
+        if (!loc.location_id) loc.location_id = loc.locationId;
+      });
       return {
         card: existingActiveCard,
         isNew: false,
@@ -236,18 +241,21 @@ export function createOrGetBingoCard(userId, quizData) {
     }
   }
 
-  // 2. Extragem numărul de zile (zile_ramase / stayDays)
-  // Acceptăm atât câmpuri la nivel rădăcină, cât și în sub-obiectul preferences
-  const preferences = quizData.preferences || {};
-  const flatQuiz = { ...quizData, ...preferences };
+  // 2. Normalizăm datele din quiz (suportă atât convenția OpenAPI cât și formatul frontend)
+  const flatQuiz = normalizeQuizPayload(quizData);
 
-  const totalDays = Number(flatQuiz.zile_ramase || flatQuiz.stayDays || 1);
+  const totalDays = Number(flatQuiz.stayDays || flatQuiz.days || flatQuiz.zile_ramase || 1);
   const currentCardNumber = userState.cards.length + 1;
 
   // Verificăm dacă utilizatorul a terminat deja numărul maxim de zile alocate
   if (userState.cards.length >= totalDays && userState.cards.every(c => c.completed)) {
+    const lastCard = userState.cards[userState.cards.length - 1];
+    lastCard.locations.forEach(loc => {
+      if (!loc.id) loc.id = loc.locationId;
+      if (!loc.location_id) loc.location_id = loc.locationId;
+    });
     return {
-      card: userState.cards[userState.cards.length - 1],
+      card: lastCard,
       isNew: false,
       message: `Felicitări! Ai completat toate cele ${totalDays} zile de Treasure Hunt!`
     };
@@ -279,7 +287,7 @@ export function createOrGetBingoCard(userId, quizData) {
   // Marcăm noile locații ca folosite pentru a nu se repeta în cardurile viitoare
   selectedLocations.forEach(loc => userState.usedLocationIds.add(loc.id));
 
-  // 4. Construim obiectul card de bingo
+  // 4. Construim obiectul card de bingo cu id, location_id și locationId
   const newBingoId = `bingo_${crypto.randomUUID().slice(0, 8)}`;
   const newCard = {
     bingoId: newBingoId,
@@ -291,8 +299,10 @@ export function createOrGetBingoCard(userId, quizData) {
     completedAt: null,
     albumPhoto: null,
     completionMessage: null,
-    // Grila 3x3 cu 9 locații
+    // Grila 3x3 cu 9 locații, compatibilă atât cu locationId, cât și cu id și location_id
     locations: selectedLocations.map(loc => ({
+      id: loc.id,
+      location_id: loc.id,
       locationId: loc.id,
       name: loc.nume,
       description: loc.descriere,
@@ -324,7 +334,7 @@ export function createOrGetBingoCard(userId, quizData) {
  * 
  * @param {string} userId
  * @param {string} bingoId
- * @param {Object} verificationData { locationId, userLat, userLng, photo }
+ * @param {Object} verificationData { locationId, id, location_id, userLat, userLng, photo }
  * @returns {{ success: boolean, message: string, location?: Object, error?: string, status: number }}
  */
 export function verifyLocationVisit(userId, bingoId, verificationData) {
@@ -347,15 +357,16 @@ export function verifyLocationVisit(userId, bingoId, verificationData) {
     };
   }
 
-  const { locationId, userLat, userLng, photo } = verificationData;
+  const { locationId, id, location_id, userLat, userLng, photo } = verificationData;
+  const targetId = locationId || id || location_id;
 
-  // Căutăm locația în lista cardului
-  const targetLocation = card.locations.find(loc => loc.locationId === locationId);
+  // Căutăm locația în lista cardului (după locationId, id sau location_id)
+  const targetLocation = card.locations.find(loc => loc.locationId === targetId || loc.id === targetId || loc.location_id === targetId);
   if (!targetLocation) {
     return {
       success: false,
       status: 400,
-      error: `Locația cu ID-ul '${locationId}' nu aparține acestui card de bingo.`
+      error: `Locația cu ID-ul '${targetId}' nu aparține acestui card de bingo.`
     };
   }
 

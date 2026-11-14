@@ -1,6 +1,22 @@
 import { calculateDistanceKm } from './haversine.js';
 
 /**
+ * Elimină diacriticele și convertește textul la litere mici.
+ * Ex: "Tradițional" -> "traditional", "Comedie" -> "comedie", "Știință" -> "stiinta".
+ * 
+ * @param {string} str Textul de normalizat
+ * @returns {string} Textul curățat
+ */
+export function normalizeText(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+/**
  * Determină sezonul curent pe baza datei calendaristice curente.
  * Lunile în JavaScript încep de la 0 (Ianuarie = 0, Decembrie = 11).
  * 
@@ -27,6 +43,96 @@ export function getCurrentSeason(date = new Date()) {
 }
 
 /**
+ * Normalizează corpul cererii pentru quiz / generare card, acceptând ambele convenții de denumire
+ * (OpenAPI: stayDays, preferences etc. și formatul frontend: days, maxDistanceKm, movie, food, drink, domain, hobby).
+ * Completează cu coordonatele implicite din centrul Timișoarei dacă lipsesc.
+ * 
+ * @param {Object} rawBody Corpul brut al cererii
+ * @returns {Object} Obiect normalizat cu toate variantele de chei
+ */
+export function normalizeQuizPayload(rawBody = {}) {
+  const prefs = (typeof rawBody.preferences === 'object' && rawBody.preferences !== null)
+    ? rawBody.preferences
+    : {};
+
+  // 1. Zile: stayDays / zile_ramase / days
+  const rawDays = rawBody.stayDays ?? rawBody.zile_ramase ?? rawBody.days ?? prefs.stayDays ?? prefs.zile_ramase ?? prefs.days;
+  const stayDays = (rawDays !== undefined && rawDays !== null && rawDays !== '')
+    ? Number(rawDays)
+    : undefined;
+
+  // 2. Distanță maximă: distanta_max_km / maxDistance / maxDistanceKm (implicit 10 km)
+  const rawDist = rawBody.distanta_max_km ?? rawBody.maxDistance ?? rawBody.maxDistanceKm ?? prefs.distanta_max_km ?? prefs.maxDistance ?? prefs.maxDistanceKm;
+  const maxDistance = (rawDist !== undefined && rawDist !== null && rawDist !== '')
+    ? Number(rawDist)
+    : 10;
+
+  // 3. Coordonate GPS: userLat/userLng sau lat/lng, cu fallback pe centrul Timișoarei (45.7538, 21.2257)
+  const rawLat = rawBody.userLat ?? rawBody.lat ?? prefs.userLat ?? prefs.lat;
+  const rawLng = rawBody.userLng ?? rawBody.lng ?? prefs.userLng ?? prefs.lng;
+  const userLat = (typeof rawLat === 'number' && !isNaN(rawLat))
+    ? rawLat
+    : (rawLat && !isNaN(Number(rawLat)) ? Number(rawLat) : 45.7538);
+  const userLng = (typeof rawLng === 'number' && !isNaN(rawLng))
+    ? rawLng
+    : (rawLng && !isNaN(Number(rawLng)) ? Number(rawLng) : 21.2257);
+
+  // 4. Preferințe cu normalizare (litere mici, fără diacritice)
+  const rawMovie = prefs.movie ?? prefs.film ?? prefs.favoriteMovie ?? rawBody.movie ?? rawBody.film ?? rawBody.favoriteMovie;
+  const rawFood = prefs.food ?? prefs.mancare ?? prefs.favoriteFood ?? rawBody.food ?? rawBody.mancare ?? rawBody.favoriteFood;
+  const rawDrink = prefs.drink ?? prefs.bautura ?? prefs.favoriteDrink ?? rawBody.drink ?? rawBody.bautura ?? rawBody.favoriteDrink;
+  const rawDomain = prefs.domain ?? prefs.alegere ?? prefs.category ?? rawBody.domain ?? rawBody.alegere ?? rawBody.category;
+  const rawHobby = prefs.hobby ?? rawBody.hobby;
+
+  const movie = normalizeText(rawMovie);
+  const food = normalizeText(rawFood);
+  const drink = normalizeText(rawDrink);
+  const domain = normalizeText(rawDomain);
+  const hobby = normalizeText(rawHobby);
+
+  return {
+    stayDays,
+    zile_ramase: stayDays,
+    days: stayDays,
+    maxDistance,
+    distanta_max_km: maxDistance,
+    maxDistanceKm: maxDistance,
+    userLat,
+    lat: userLat,
+    userLng,
+    lng: userLng,
+    film: movie,
+    favoriteMovie: movie,
+    movie: movie,
+    mancare: food,
+    favoriteFood: food,
+    food: food,
+    bautura: drink,
+    favoriteDrink: drink,
+    drink: drink,
+    alegere: domain,
+    category: domain,
+    domain: domain,
+    hobby: hobby,
+    preferences: {
+      film: movie,
+      favoriteMovie: movie,
+      movie: movie,
+      mancare: food,
+      favoriteFood: food,
+      food: food,
+      bautura: drink,
+      favoriteDrink: drink,
+      drink: drink,
+      alegere: domain,
+      category: domain,
+      domain: domain,
+      hobby: hobby
+    }
+  };
+}
+
+/**
  * Calculează scorul de potrivire al unei locații în raport cu răspunsurile la quiz ale utilizatorului.
  * 
  * @param {Object} location Obiectul locație din locations.json
@@ -37,34 +143,34 @@ export function getCurrentSeason(date = new Date()) {
 export function calculateLocationScore(location, quiz, season) {
   let score = 0;
 
-  // Extragem valorile din quiz (suportăm atât denumirile în română cât și cele din openapi)
-  const alegere = (quiz.alegere || quiz.category || '').toLowerCase();
-  const film = (quiz.film || quiz.favoriteMovie || '').toLowerCase();
-  const mancare = (quiz.mancare || quiz.favoriteFood || '').toLowerCase();
-  const bautura = (quiz.bautura || quiz.favoriteDrink || '').toLowerCase();
-  const hobby = (quiz.hobby || '').toLowerCase();
+  // Extragem valorile normalizate din quiz
+  const alegere = normalizeText(quiz.domain || quiz.alegere || quiz.category);
+  const film = normalizeText(quiz.movie || quiz.film || quiz.favoriteMovie);
+  const mancare = normalizeText(quiz.food || quiz.mancare || quiz.favoriteFood);
+  const bautura = normalizeText(quiz.drink || quiz.bautura || quiz.favoriteDrink);
+  const hobby = normalizeText(quiz.hobby);
 
-  const tags = (location.taguri || []).map(t => t.toLowerCase());
-  const locCategory = (location.categorie || '').toLowerCase();
+  const tags = (location.taguri || []).map(t => normalizeText(t));
+  const locCategory = normalizeText(location.categorie);
 
-  // 1. Potrivire pe categorie principală (alegere: stiinta / arta / istorie / natura)
+  // 1. Potrivire pe categorie principală (alegere / domain: stiinta / arta / istorie / natura)
   if (alegere && locCategory === alegere) {
     score += 5;
   } else if (alegere && tags.includes(alegere)) {
     score += 3;
   }
 
-  // 2. Potrivire pe preferințe de film (comedie / actiune / drama / romantic)
+  // 2. Potrivire pe preferințe de film (movie / film: comedie / actiune / drama / romantic)
   if (film && tags.includes(film)) {
     score += 2;
   }
 
-  // 3. Potrivire pe mâncare (picant / sarat / dulce / traditional)
+  // 3. Potrivire pe mâncare (food / mancare: picant / sarat / dulce / traditional)
   if (mancare && tags.includes(mancare)) {
     score += 2;
   }
 
-  // 4. Potrivire pe băutură (ceai / cafea / alcool / suc)
+  // 4. Potrivire pe băutură (drink / bautura: ceai / cafea / alcool / suc)
   if (bautura && tags.includes(bautura)) {
     score += 2;
   }
@@ -77,7 +183,7 @@ export function calculateLocationScore(location, quiz, season) {
   }
 
   // 6. Bonus dacă sezonul curent este printre sezoanele ideale ale locației
-  if (season && location.sezoane && location.sezoane.includes(season)) {
+  if (season && location.sezoane && location.sezoane.some(s => normalizeText(s) === season)) {
     score += 2;
   }
 
@@ -96,7 +202,7 @@ export function calculateLocationScore(location, quiz, season) {
 export function filterAndRankLocations(allLocations, quiz, usedLocationIds = new Set()) {
   const currentSeason = getCurrentSeason();
 
-  // Coordonate implicite: centrul Timișoarei (Piața Victoriei) dacă utilizatorul nu oferă coordonate
+  // Coordonate GPS: centrul Timișoarei dacă lipsesc
   const userLat = typeof quiz.lat === 'number'
     ? quiz.lat
     : (typeof quiz.userLat === 'number' ? quiz.userLat : 45.7538);
@@ -105,10 +211,12 @@ export function filterAndRankLocations(allLocations, quiz, usedLocationIds = new
     ? quiz.lng
     : (typeof quiz.userLng === 'number' ? quiz.userLng : 21.2257);
 
-  // Distanța maximă în km (implicit 10 km pentru tot orașul Timișoara dacă nu este specificat)
+  // Distanța maximă în km (implicit 10 km dacă nu e specificat)
   const maxDistanceKm = typeof quiz.distanta_max_km === 'number'
     ? quiz.distanta_max_km
-    : (typeof quiz.maxDistance === 'number' ? quiz.maxDistance : 10);
+    : (typeof quiz.maxDistance === 'number'
+      ? quiz.maxDistance
+      : (typeof quiz.maxDistanceKm === 'number' ? quiz.maxDistanceKm : 10));
 
   // 1. Excludem locațiile deja folosite în zilele/cardurile anterioare
   const availableLocations = allLocations.filter(loc => !usedLocationIds.has(loc.id));
@@ -117,7 +225,7 @@ export function filterAndRankLocations(allLocations, quiz, usedLocationIds = new
   const scoredLocations = availableLocations.map(loc => {
     const distance = calculateDistanceKm(userLat, userLng, loc.lat, loc.lng);
     const score = calculateLocationScore(loc, quiz, currentSeason);
-    const fitsSeason = loc.sezoane && loc.sezoane.includes(currentSeason);
+    const fitsSeason = loc.sezoane && loc.sezoane.some(s => normalizeText(s) === currentSeason);
 
     return {
       ...loc,
@@ -131,7 +239,7 @@ export function filterAndRankLocations(allLocations, quiz, usedLocationIds = new
   let filtered = scoredLocations.filter(loc => loc.fitsSeason && loc.calculatedDistanceKm <= maxDistanceKm);
 
   // Fallback de siguranță: dacă utilizatorul a setat o distanță prea mică și rămân sub 9 locații,
-  // completăm cu cele mai apropiate locații disponibile din sezonul curent pentru a putea forma grila de 3x3 (9 căsuțe)
+  // completăm cu cele mai apropiate locații disponibile din sezonul curent pentru a forma grila de 3x3
   if (filtered.length < 9) {
     const seasonalOnly = scoredLocations
       .filter(loc => loc.fitsSeason)

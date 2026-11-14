@@ -1,0 +1,10 @@
+[
+  {
+    "id": "4eeca10e-674b-42ae-a442-0b24ee39db8b",
+    "username": "testuser",
+    "email": "test@test.com",
+    "passwordHash": "$2b$12$n2GIWOCeWzZbsgrzFn/jxuF.X6d2KrpPvzqgQmCXUq22H5Rs6rCDa",
+    "role": "user",
+    "createdAt": "2026-11-14T16:07:27.656Z"
+  }
+]

@@ -68,6 +68,8 @@ export function seedDemoDataIfEnabled(userStore, allLocations) {
     locations: previousLocationsIds.map((id, index) => {
       const loc = findLoc(id);
       return {
+        id: loc.id,
+        location_id: loc.id,
         locationId: loc.id,
         name: loc.nume,
         description: loc.descriere,
@@ -156,6 +158,8 @@ export function seedDemoDataIfEnabled(userStore, allLocations) {
     locations: activeLocationsData.map((item, index) => {
       const loc = findLoc(item.id);
       return {
+        id: loc.id,
+        location_id: loc.id,
         locationId: loc.id,
         name: loc.nume,
         description: loc.descriere,

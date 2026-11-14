@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { requireAuth } from '../users/authMiddleware.js';
+import { normalizeQuizPayload } from './services/scoring.js';
 import {
   getAllBingoCards,
   getActiveBingoCard,
@@ -13,22 +15,23 @@ import {
 const router = Router();
 
 /**
- * Middleware auxiliar pentru identificarea utilizatorului.
- * Se verifică antetul 'x-user-id' (sau 'Authorization: Bearer <token>' ca fallback).
+ * Middleware de autentificare pentru Treasure Hunt:
+ * 1. Dacă DEMO_MODE=true și este prezent antetul 'x-user-id', îl acceptăm direct pentru utilizatorul demo.
+ * 2. Dacă DEMO_MODE nu este true (sau 'x-user-id' lipsește), se folosește obligatoriu requireAuth din users/authMiddleware.js.
+ *    Astfel, când DEMO_MODE nu e true, 'x-user-id' nu mai este acceptat, fiind necesar Bearer token.
+ * 3. În urma autentificării reușite, ID-ul utilizatorului este disponibil pe req.userId.
  */
-function getUserId(req) {
-  const headerId = req.headers['x-user-id'];
-  if (headerId && typeof headerId === 'string' && headerId.trim() !== '') {
-    return headerId.trim();
+function authenticateHuntUser(req, res, next) {
+  const isDemoMode = process.env.DEMO_MODE === 'true';
+  const headerUserId = req.headers['x-user-id'];
+
+  if (isDemoMode && headerUserId && typeof headerUserId === 'string' && headerUserId.trim() !== '') {
+    req.userId = headerUserId.trim();
+    return next();
   }
 
-  const authHeader = req.headers['authorization'];
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    return authHeader.split(' ')[1].trim();
-  }
-
-  // Utilizator demonstrativ implicit dacă nu este trimis niciun header
-  return 'utilizator_demo';
+  // În mod normal (sau când DEMO_MODE nu e true), delegăm exclusiv către requireAuth
+  return requireAuth(req, res, next);
 }
 
 /**
@@ -69,12 +72,37 @@ function parseMultipartIfPresent(req, res, next) {
 }
 
 /**
+ * GET /api/hunt/
+ * Documentație și listă de rute disponibile în modulul Treasure Hunt (public)
+ */
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Modulul Treasure Hunt Timișoara este funcțional!',
+    endpoints: [
+      { method: 'GET',  path: '/api/hunt/bingos',              description: 'Toate cardurile (active și finalizate). Suportă ?status=active sau ?status=completed' },
+      { method: 'POST', path: '/api/hunt/bingos',              description: 'Creează un nou card de bingo (acceptă stayDays sau days, preferences normalizate)' },
+      { method: 'GET',  path: '/api/hunt/bingos/active',       description: 'Cardul de bingo activ al utilizatorului' },
+      { method: 'GET',  path: '/api/hunt/bingos/completed',    description: 'Lista bingo-urilor anterioare (terminate)' },
+      { method: 'GET',  path: '/api/hunt/gallery',             description: 'Galeria personală cu toate pozele (BeReal + albume)' },
+      { method: 'GET',  path: '/api/hunt/bingos/:bingoId',     description: 'Detaliile unui card specific după ID' },
+      { method: 'POST', path: '/api/hunt/bingos/:bingoId/verify',   description: 'Validează vizita (GPS + poză, multipart/form-data sau JSON)' },
+      { method: 'POST', path: '/api/hunt/bingos/:bingoId/complete', description: 'Finalizează cardul și generează poza de album' }
+    ]
+  });
+});
+
+// ============================================================================
+// Toate endpoint-urile de mai jos necesită autentificare (Bearer JWT sau x-user-id în DEMO_MODE)
+// ============================================================================
+router.use(authenticateHuntUser);
+
+/**
  * GET /api/hunt/bingos
  * Obține toate cardurile de bingo ale utilizatorului (active și finalizate).
  * Suportă și filtrare prin query param: ?status=active sau ?status=completed
  */
 router.get('/bingos', (req, res) => {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const statusFilter = req.query.status; // 'active' | 'completed' | undefined
   const cards = getAllBingoCards(userId, statusFilter);
 
@@ -87,21 +115,27 @@ router.get('/bingos', (req, res) => {
  * Returnează cardul de bingo activ (în desfășurare) al utilizatorului.
  */
 function handleGetActiveCard(req, res) {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const activeCard = getActiveBingoCard(userId);
 
   if (!activeCard) {
     return res.status(200).json({
       hasActiveCard: false,
       message: 'Nu există un card de bingo activ în acest moment.',
-      card: null
+      card: null,
+      locations: [],
+      route: { locations: [] }
     });
   }
 
   return res.status(200).json({
     hasActiveCard: true,
     bingoId: activeCard.bingoId,
-    card: activeCard
+    card: activeCard,
+    locations: activeCard.locations,
+    route: {
+      locations: activeCard.locations
+    }
   });
 }
 router.get('/bingos/active', handleGetActiveCard);
@@ -113,7 +147,7 @@ router.get('/active', handleGetActiveCard);
  * Returnează lista cardurilor de bingo finalizate anterior de utilizator.
  */
 function handleGetCompletedCards(req, res) {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const completedCards = getCompletedBingoCards(userId);
 
   return res.status(200).json(completedCards);
@@ -130,7 +164,7 @@ router.get('/completed', handleGetCompletedCards);
  * - Pozele de album generate la finalizarea cardurilor
  */
 function handleGetGallery(req, res) {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const gallery = getUserGallery(userId);
 
   return res.status(200).json(gallery);
@@ -139,38 +173,48 @@ router.get('/gallery', handleGetGallery);
 router.get('/bingos/gallery', handleGetGallery);
 
 /**
- * POST /api/hunt/bingos
+ * POST /api/hunt/bingos (și aliasul /generate pentru compatibilitate cu client.js)
  * Creează un nou card de bingo pe baza chestionarului și a zilelor alese.
- * Respectă schema din openapi.yaml: { stayDays: int, preferences: obj }
- * Returnează 201 Created cu noul bingoId.
+ * Acceptă ambele convenții de nume (OpenAPI și frontend) și normalizează valorile fără diacritice.
  */
-router.post('/bingos', (req, res) => {
-  const userId = getUserId(req);
-  const quizData = req.body || {};
+function handleCreateBingo(req, res) {
+  const userId = req.userId;
+  const rawQuizData = req.body || {};
 
-  // Validare câmpuri conform openapi.yaml
-  const stayDays = quizData.stayDays || quizData.zile_ramase;
-  if (!stayDays) {
+  // Normalizăm datele de intrare (acceptă stayDays / zile_ramase / days etc.)
+  const normalized = normalizeQuizPayload(rawQuizData);
+
+  // Validare: days / stayDays este obligatoriu
+  if (!normalized.stayDays || isNaN(normalized.stayDays) || normalized.stayDays < 1) {
     return res.status(400).json({
-      error: 'Date invalide: Câmpul stayDays (sau zile_ramase) este obligatoriu.'
+      error: 'Date invalide: Câmpul stayDays (sau days / zile_ramase) este obligatoriu și trebuie să fie un număr valid (minim 1).'
     });
   }
 
-  const result = createOrGetBingoCard(userId, quizData);
+  const result = createOrGetBingoCard(userId, normalized);
 
+  // Returnăm răspunsul complet:
+  // - Păstrăm tot ce există acum din openapi.yaml (message, bingoId, card)
+  // - Adăugăm în plus "locations" și "route" la nivel de vârf pentru frontend (cu id și location_id pe fiecare locație)
   return res.status(201).json({
     message: result.message,
     bingoId: result.card.bingoId,
-    card: result.card
+    card: result.card,
+    locations: result.card.locations,
+    route: {
+      locations: result.card.locations
+    }
   });
-});
+}
+router.post('/bingos', handleCreateBingo);
+router.post('/generate', handleCreateBingo);
 
 /**
  * GET /api/hunt/bingos/:bingoId
  * Obține detaliile și starea unui card de bingo specific după ID.
  */
 router.get('/bingos/:bingoId', (req, res) => {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const { bingoId } = req.params;
 
   const card = getBingoCardById(userId, bingoId);
@@ -181,7 +225,13 @@ router.get('/bingos/:bingoId', (req, res) => {
     });
   }
 
-  return res.status(200).json(card);
+  return res.status(200).json({
+    ...card,
+    locations: card.locations,
+    route: {
+      locations: card.locations
+    }
+  });
 });
 
 /**
@@ -190,7 +240,7 @@ router.get('/bingos/:bingoId', (req, res) => {
  * Suportă atât multipart/form-data (conform OpenAPI) cât și JSON.
  */
 router.post('/bingos/:bingoId/verify', parseMultipartIfPresent, (req, res) => {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const { bingoId } = req.params;
   const verificationData = req.body || {};
 
@@ -214,7 +264,7 @@ router.post('/bingos/:bingoId/verify', parseMultipartIfPresent, (req, res) => {
  * Finalizează cardul de bingo specificat și generează poza de album + mesaj.
  */
 router.post('/bingos/:bingoId/complete', (req, res) => {
-  const userId = getUserId(req);
+  const userId = req.userId;
   const { bingoId } = req.params;
 
   const result = completeBingoCard(userId, bingoId);
@@ -231,26 +281,6 @@ router.post('/bingos/:bingoId/complete', (req, res) => {
     albumPhoto: result.albumPhoto,
     completionMessage: result.completionMessage,
     card: result.card
-  });
-});
-
-/**
- * GET /api/hunt/
- * Documentație și listă de rute disponibile în modulul Treasure Hunt
- */
-router.get('/', (req, res) => {
-  res.json({
-    message: 'Modulul Treasure Hunt Timișoara este funcțional!',
-    endpoints: [
-      { method: 'GET',  path: '/api/hunt/bingos',              description: 'Toate cardurile (active și finalizate). Suportă ?status=active sau ?status=completed' },
-      { method: 'POST', path: '/api/hunt/bingos',              description: 'Creează un nou card de bingo (stayDays, preferences)' },
-      { method: 'GET',  path: '/api/hunt/bingos/active',       description: 'Cardul de bingo activ al utilizatorului' },
-      { method: 'GET',  path: '/api/hunt/bingos/completed',    description: 'Lista bingo-urilor anterioare (terminate)' },
-      { method: 'GET',  path: '/api/hunt/gallery',             description: 'Galeria personală cu toate pozele (BeReal + albume)' },
-      { method: 'GET',  path: '/api/hunt/bingos/:bingoId',     description: 'Detaliile unui card specific după ID' },
-      { method: 'POST', path: '/api/hunt/bingos/:bingoId/verify',   description: 'Validează vizita (GPS + poză, multipart/form-data sau JSON)' },
-      { method: 'POST', path: '/api/hunt/bingos/:bingoId/complete', description: 'Finalizează cardul și generează poza de album' }
-    ]
   });
 });
 
