@@ -1,0 +1,24 @@
+.cam-preview {
+  position: fixed; inset: 0; z-index: 3000;
+  background: #000; display: flex; flex-direction: column;
+}
+.cam-preview img {
+  flex: 1; min-height: 0; width: 100%; object-fit: contain;
+}
+.cam-actions {
+  display: flex; gap: 10px;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: #111;
+}
+.cam-btn {
+  flex: 1; padding: 15px; border: none; border-radius: 12px;
+  font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+}
+.cam-retake { background: #333; color: #fff; }
+.cam-send { background: #2e9d5b; color: #fff; }
+.cam-btn:disabled { opacity: .6; }
+.cam-error {
+  background: #fde8e8; color: #8a1c1c; padding: 10px 12px;
+  border-radius: 10px; font-size: 14px; margin-top: 8px;
+}
+.cam-preview .cam-error { margin: 0; border-radius: 0; text-align: center; }

@@ -1,0 +1,60 @@
+.bingo-card {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1000;
+  background: #fff; border-radius: 18px 18px 0 0;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -2px 12px rgba(0,0,0,.25);
+}
+
+.bingo-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bingo-progress-text { font-weight: 700; font-size: 15px; min-width: 36px; }
+.bingo-progress-bar { flex: 1; height: 8px; background: #e3e3e3; border-radius: 4px; overflow: hidden; }
+.bingo-progress-fill { height: 100%; background: #2e9d5b; transition: width .4s ease; }
+
+.bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+.bingo-tile {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: 2px; padding: 8px 4px; min-height: 92px;
+  background: #f4f4f4; border: 2px solid transparent; border-radius: 12px;
+  font: inherit; color: #222; cursor: pointer;
+}
+.bingo-tile.visited { background: #e4f5ea; border-color: #2e9d5b; }
+.bingo-tile.selected { border-color: #1a73e8; }
+.tile-number {
+  position: absolute; top: 4px; left: 6px;
+  font-size: 11px; font-weight: 700; color: #888;
+}
+.tile-icon { font-size: 26px; line-height: 1.1; }
+.tile-name {
+  font-size: 12px; font-weight: 600; text-align: center; line-height: 1.15;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.tile-state { font-size: 11px; color: #666; }
+.bingo-tile.visited .tile-state { color: #2e9d5b; font-weight: 700; }
+
+/* panoul locației */
+.place-panel {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1100;
+  background: #fff; border-radius: 18px 18px 0 0;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -2px 16px rgba(0,0,0,.35);
+  max-height: 70dvh; overflow-y: auto;
+}
+.panel-head { display: flex; align-items: center; gap: 10px; }
+.panel-icon { font-size: 32px; }
+.panel-title { flex: 1; margin: 0; font-size: 20px; }
+.panel-close {
+  border: none; background: #eee; border-radius: 50%;
+  width: 36px; height: 36px; font-size: 18px; cursor: pointer;
+}
+.panel-blurb { margin: 12px 0; line-height: 1.45; color: #333; }
+.panel-actions { display: flex; flex-direction: column; gap: 8px; }
+.btn-nav, .btn-photo {
+  display: block; text-align: center; text-decoration: none;
+  padding: 14px; border-radius: 12px; border: none;
+  font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+}
+.btn-nav { background: #e8f0fe; color: #1a73e8; }
+.btn-photo { background: #1a73e8; color: #fff; }
+.btn-photo:disabled { background: #b5c7e6; }
+.panel-visited { color: #2e9d5b; font-weight: 700; }
