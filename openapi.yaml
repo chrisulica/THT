@@ -223,26 +223,9 @@ paths:
                     example: true
                   locations:
                     type: array
+                    description: Lista de locații recomandate cu coordonate GPS reale din Timișoara
                     items:
-                      type: object
-                      properties:
-                        id:          { type: integer, example: 1 }
-                        name:        { type: string, example: "Parcul Central / Parcul Rozelor" }
-                        description: { type: string }
-                        address:     { type: string }
-                        distantaFataDeCentru: { type: number, example: 0.5 }
-                        anotimp:     { type: array, items: { type: string } }
-                        genFilm:     { type: array, items: { type: string } }
-                        tipMancare:  { type: array, items: { type: string } }
-                        bautura:     { type: array, items: { type: string } }
-                        domeniu:     { type: array, items: { type: string } }
-                        hobby:       { type: array, items: { type: string } }
-                        emoji:       { type: string, example: "🌹" }
-                        coords:
-                          type: object
-                          properties:
-                            lat: { type: number }
-                            lng: { type: number }
+                      $ref: '#/components/schemas/Location'
                   message:
                     type: string
                     example: "Am pregătit 9 locații din Timișoara special pentru tine!"
@@ -501,3 +484,92 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  schemas:
+    Coordinates:
+      type: object
+      description: Coordonate GPS reale (WGS84) din Timișoara
+      required:
+        - lat
+        - lng
+      properties:
+        lat:
+          type: number
+          format: double
+          description: Latitudine GPS
+          example: 45.7580
+        lng:
+          type: number
+          format: double
+          description: Longitudine GPS
+          example: 21.2290
+
+    Location:
+      type: object
+      description: Locație de interes din Timișoara pentru Treasure Hunt
+      required:
+        - id
+        - name
+        - description
+        - address
+        - distantaFataDeCentru
+        - coords
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Parcul Rozelor"
+        description:
+          type: string
+          example: "Parc emblematic din Timișoara, renumit pentru sutele de specii de trandafiri și teatrul de vară."
+        address:
+          type: string
+          example: "Str. Academician Alexandru Borza, Timișoara"
+        distantaFataDeCentru:
+          type: number
+          format: double
+          description: Distanța în kilometri față de centrul Timișoarei
+          example: 0.6
+        anotimp:
+          type: array
+          items:
+            type: string
+            enum: [primavara, vara, toamna, iarna, toate]
+          example: ["primavara", "vara", "toamna"]
+        genFilm:
+          type: array
+          items:
+            type: string
+            enum: [comedie, actiune, drama, romantic]
+          example: ["romantic", "drama"]
+        tipMancare:
+          type: array
+          items:
+            type: string
+            enum: [picant, sarat, dulce, traditional]
+          example: ["dulce", "traditional"]
+        bautura:
+          type: array
+          items:
+            type: string
+            enum: [ceai, cafea, alcool, suc]
+          example: ["ceai", "cafea", "suc"]
+        domeniu:
+          type: array
+          items:
+            type: string
+            enum: [stiinta, arta, istorie, natura]
+          example: ["natura", "arta"]
+        hobby:
+          type: array
+          items:
+            type: string
+            enum: [citit, sport, crafting, filme]
+          example: ["citit", "sport", "crafting"]
+        emoji:
+          type: string
+          example: "🌹"
+        coords:
+          $ref: '#/components/schemas/Coordinates'
