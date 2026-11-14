@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 import { filterAndRankLocations } from './scoring.js';
 import { calculateDistanceKm } from './haversine.js';
+import { seedDemoDataIfEnabled } from './demoSeed.js';
 
 // Obținem calea absolută către fișierul locations.json
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,9 @@ try {
  */
 const userStore = new Map();
 
+// Rulăm seed-ul automat pentru prezentare dacă DEMO_MODE=true
+seedDemoDataIfEnabled(userStore, allLocations);
+
 /**
  * Returnează sau inițializează starea utilizatorului în memorie.
  * 
@@ -37,6 +41,11 @@ const userStore = new Map();
  * @returns {Object} Starea utilizatorului
  */
 function getUserState(userId) {
+  // Dacă se cere demo_user în DEMO_MODE și nu e populat, rulăm seed-ul
+  if (userId === 'demo_user' && !userStore.has('demo_user') && process.env.DEMO_MODE === 'true') {
+    seedDemoDataIfEnabled(userStore, allLocations);
+  }
+
   if (!userStore.has(userId)) {
     userStore.set(userId, {
       userId,
