@@ -22,12 +22,13 @@ const MapView = forwardRef(function MapView({ places, onPinClick, userPosition }
   const accuracyCircleRef = useRef(null);
 
   // expune funcția "centrează" către Hunt.jsx
-  useImperativeHandle(ref, () => ({
+   useImperativeHandle(ref, () => ({
     centerOnUser() {
       const map = mapRef.current;
-      if (map && userPosition) {
-        map.flyTo([userPosition.lat, userPosition.lng], 17);
-      }
+      if (map && userPosition) map.flyTo([userPosition.lat, userPosition.lng], 17);
+    },
+    flyToPlace(p) {
+      mapRef.current?.flyTo([p.lat, p.lng], 16);
     },
   }));
   // creează harta o singură dată
@@ -48,6 +49,8 @@ const MapView = forwardRef(function MapView({ places, onPinClick, userPosition }
   }, []);
 
   // redesenează pinii când se schimbă locațiile sau starea (vizitat)
+    const fittedRef = useRef(false);
+
   useEffect(() => {
     const map = mapRef.current;
     markersRef.current.forEach((m) => m.remove());
@@ -56,8 +59,12 @@ const MapView = forwardRef(function MapView({ places, onPinClick, userPosition }
         .addTo(map)
         .on('click', () => onPinClick(p))
     );
-    if (places.length) {
-      map.fitBounds(places.map((p) => [p.lat, p.lng]), { padding: [40, 40] , maxZoom: 16,});
+    if (places.length && !fittedRef.current) {
+      map.fitBounds(places.map((p) => [p.lat, p.lng]), { 
+        padding: [40, 40], 
+       // paddingBottomRight: [40, 340],
+        maxZoom: 16 });
+      fittedRef.current = true;
     }
   }, [places]);
     // pinul albastru al utilizatorului
