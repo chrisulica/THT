@@ -86,7 +86,12 @@ export default function Hunt() {
 
   async function handlePhoto(tile, blob) {
     setGpsError(null);
-
+    const dist = getDistanceMeters(position.lat, position.lng, tile.lat, tile.lng);
+    if (dist > MAX_DISTANCE_METERS) {
+      const msg = `Ești la ${dist} m de ${tile.name}. Trebuie să fii la mai puțin de ${MAX_DISTANCE_METERS} m pentru a bifa!`;
+      setGpsError(msg);
+      throw new Error(msg); // 👈 Asigură-te că aruncă eroare ca să nu salveze poza!
+    }
     // --- Pasul 5: Verificare GPS ---
     if (!DEMO_MODE) {
       if (!position) {
