@@ -143,12 +143,17 @@ paths:
         '404':
           description: Prietenul nu a fost găsit în listă
 
+
   # ==========================================
   # AI INTEGRATION
   # ==========================================
-  /ai/generate-locations:
+
+  /ai_integrations/generate-bingo:
     post:
-      summary: Generează locații personalizate prin AI pe baza chestionarului
+      summary: Generează un card Bingo personalizat pe baza preferințelor din quiz
+      description: |
+        Returnează 5 sau 9 locații potrivite din Timișoara, filtrând locațiile deja vizitate.
+        Folosește GPT-4o-mini dacă `OPENAI_API_KEY` e configurată, altfel un algoritm local de scoring.
       tags:
         - AI Integration
       security:
@@ -159,55 +164,222 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - stayDays
-                - maxDistance
-                - favoriteMovie
-                - favoriteFood
-                - favoriteDrink
-                - category
-                - hobby
               properties:
-                stayDays:
+                prefs:
+                  type: object
+                  properties:
+                    distantaMaxima:
+                      type: number
+                      description: Distanța maximă acceptată față de centru (km)
+                      example: 2.0
+                    genFilm:
+                      type: string
+                      enum: [comedie, actiune, drama, romantic]
+                      example: romantic
+                    tipMancare:
+                      type: string
+                      enum: [picant, sarat, dulce, traditional]
+                      example: dulce
+                    bautura:
+                      type: string
+                      enum: [ceai, cafea, alcool, suc]
+                      example: cafea
+                    domenii:
+                      type: array
+                      items:
+                        type: string
+                        enum: [stiinta, arta, istorie, natura]
+                      example: [arta, natura]
+                    hobby:
+                      type: string
+                      enum: [citit, sport, crafting, filme]
+                      example: citit
+                alreadyVisited:
+                  type: array
+                  items:
+                    type: integer
+                  description: ID-urile locațiilor deja vizitate (excluse din card)
+                  example: [1, 5]
+                bingoSize:
                   type: integer
-                  example: 3
-                maxDistance:
-                  type: number
-                  example: 5.0
-                favoriteMovie:
+                  enum: [5, 9]
+                  default: 9
+                  description: Dimensiunea cardului (5 sau 9 locații)
+                date:
                   type: string
-                  example: comedie
-                favoriteFood:
-                  type: string
-                  example: traditional
-                favoriteDrink:
-                  type: string
-                  example: cafea
-                category:
-                  type: string
-                  example: istorie
-                hobby:
-                  type: string
-                  example: citit
+                  format: date-time
+                  description: Data curentă (ISO string). Dacă lipsește, se folosește data serverului.
+                  example: "2026-11-14T13:00:00Z"
       responses:
         '200':
-          description: Lista de locații generate de AI
+          description: Card Bingo generat cu succes
           content:
             application/json:
               schema:
-                type: array
-                items:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  locations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:          { type: integer, example: 1 }
+                        name:        { type: string, example: "Parcul Central / Parcul Rozelor" }
+                        description: { type: string }
+                        address:     { type: string }
+                        distantaFataDeCentru: { type: number, example: 0.5 }
+                        anotimp:     { type: array, items: { type: string } }
+                        genFilm:     { type: array, items: { type: string } }
+                        tipMancare:  { type: array, items: { type: string } }
+                        bautura:     { type: array, items: { type: string } }
+                        domeniu:     { type: array, items: { type: string } }
+                        hobby:       { type: array, items: { type: string } }
+                        emoji:       { type: string, example: "🌹" }
+                        coords:
+                          type: object
+                          properties:
+                            lat: { type: number }
+                            lng: { type: number }
+                  message:
+                    type: string
+                    example: "Am pregătit 9 locații din Timișoara special pentru tine!"
+        '400':
+          description: Parametri invalizi (bingoSize sau date incorect)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+        '500':
+          description: Eroare internă server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+
+  /ai_integrations/events:
+    get:
+      summary: Returnează evenimente și activități recomandate pentru luna/anotimpul curent
+      tags:
+        - AI Integration
+      parameters:
+        - name: month
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          description: Luna (1-12). Dacă lipsește, se folosește luna curentă a serverului.
+          example: 11
+      responses:
+        '200':
+          description: Listă de evenimente sezoniere și lunare
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:         { type: boolean, example: true }
+                  month:           { type: integer, example: 11 }
+                  season:
+                    type: string
+                    enum: [primavara, vara, toamna, iarna]
+                    example: toamna
+                  seasonalEvents:
+                    type: array
+                    items: { type: string }
+                    example: ["🍷 Festivalul Vinului Bănățean", "🎃 Halloween la Fabrica de Pensule"]
+                  monthlyEvents:
+                    type: array
+                    items: { type: string }
+                    example: ["🎬 Timișoara Film Festival", "📖 Târg de carte Gaudeamus"]
+        '500':
+          description: Eroare internă server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+
+  /ai_integrations/completion-message:
+    post:
+      summary: Generează mesajul personalizat de felicitare la finalul traseului
+      description: |
+        Declară utilizatorul "un adevărat timișorean" și returnează un mesaj adaptat
+        preferințelor și locațiilor vizitate. Folosește OpenAI GPT-4o-mini dacă e disponibil,
+        altfel fallback la mesaj generat local.
+      tags:
+        - AI Integration
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userName, visitedLocationIds]
+              properties:
+                userName:
+                  type: string
+                  description: Prenumele utilizatorului
+                  example: Maria
+                visitedLocationIds:
+                  type: array
+                  items: { type: integer }
+                  description: ID-urile locațiilor vizitate
+                  example: [1, 3, 5, 9, 10]
+                prefs:
                   type: object
                   properties:
-                    locationName:
-                      type: string
-                      example: Piața Unirii
-                    lat:
-                      type: number
-                      example: 45.7597
-                    lng:
-                      type: number
-                      example: 21.2293
+                    genFilm:    { type: string, example: romantic }
+                    tipMancare: { type: string, example: dulce }
+                    bautura:    { type: string, example: cafea }
+                    hobby:      { type: string, example: citit }
+      responses:
+        '200':
+          description: Mesaj de felicitare generat cu succes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean, example: true }
+                  title:
+                    type: string
+                    example: "🏆 Felicitări, Maria! Ești un adevărat timișorean!"
+                  message:
+                    type: string
+                    example: "Bravo, Maria! Ai cucerit 5 locații din inima Timișoarei..."
+                  badge:
+                    type: string
+                    description: Emoji simbol al realizării
+                    example: "🏅"
+        '400':
+          description: Parametri obligatorii lipsă (userName sau visitedLocationIds gol)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+        '500':
+          description: Eroare internă server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string }
+
 
   # ==========================================
   # TREASURE HUNT HANDLING (Multiple Bingos by ID)
