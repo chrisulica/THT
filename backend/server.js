@@ -29,6 +29,7 @@ app.get('/api/health', (req, res) => {
 
 // Module routes
 app.use('/api/ai_integrations', aiIntegrationsRouter);
+app.use('/api/hunt', treasureHuntRouter);
 app.use('/api/treasure_hunt', treasureHuntRouter);
 app.use('/api/users', usersRouter);
 
