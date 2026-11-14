@@ -4,7 +4,8 @@
  * Automatically attaches the JWT from localStorage.
  */
 
-const BASE_URL = 'http://localhost:5000/api';
+const hostname = window.location.hostname;
+const BASE_URL = http://${hostname}:5000/api;
 
 function getToken() {
   return localStorage.getItem('tht_token');
