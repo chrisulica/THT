@@ -7,33 +7,31 @@ const router = Router();
 /**
  * Body:
  * {
- *   prefs: {
- *     distantaMaxima: number,
- *     genFilm: string,          // "comedie" | "actiune" | "drama" | "romantic"
- *     tipMancare: string,       // "picant" | "sarat" | "dulce" | "traditional"
- *     bautura: string,          // "ceai" | "cafea" | "alcool" | "suc"
- *     domenii: string[],        // ["stiinta","arta","istorie","natura"]
- *     hobby: string             // "citit" | "sport" | "crafting" | "filme"
- *   },
- *   alreadyVisited: number[],   // id-uri locații deja vizitate
- *   bingoSize: number,          // 5 sau 9 (default 9)
- *   date: string                // ISO date string (optional)
+ *   prefs: { ... } | preferences: { ... },
+ *   alreadyVisited: number[] | visitedLocations: number[],
+ *   bingoSize: 5 | 9,
+ *   date: string (optional)
  * }
  */
 router.post('/generate-bingo', async (req, res) => {
   try {
-    const { prefs = {}, alreadyVisited = [], bingoSize = 9, date } = req.body;
+    const body = req.body || {};
 
-    if (![5, 9].includes(Number(bingoSize))) {
-      return res.status(400).json({ error: 'bingoSize trebuie să fie 5 sau 9.' });
-    }
+    // Suport flexibil pentru prefs sau preferences sau câmpurile direct în body
+    const rawPrefs = body.prefs || body.preferences || body;
 
+    // Suport flexibil pentru alreadyVisited / visitedLocations
+    const alreadyVisited = body.alreadyVisited || body.visitedLocations || body.visited || [];
+
+    // Dimensiune card: acceptă 5 sau 9 (default 9 dacă e omis sau diferit)
+    const rawSize = body.bingoSize ?? body.size ?? 9;
+    const bingoSize = [5, 9].includes(Number(rawSize)) ? Number(rawSize) : 9;
+
+    const date = body.date;
     const now = date ? new Date(date) : new Date();
-    if (isNaN(now.getTime())) {
-      return res.status(400).json({ error: 'Formatul câmpului `date` este invalid.' });
-    }
+    const validDate = isNaN(now.getTime()) ? new Date() : now;
 
-    const result = await generateBingoCard(prefs, alreadyVisited, Number(bingoSize), now);
+    const result = await generateBingoCard(rawPrefs, alreadyVisited, bingoSize, validDate);
     return res.json({ success: true, ...result });
   } catch (err) {
     console.error('[POST /generate-bingo]', err);
@@ -43,7 +41,7 @@ router.post('/generate-bingo', async (req, res) => {
 
 // ── GET /api/ai_integrations/events ──────────────────────────────────────────
 /**
- * Query params: ?month=11  (1-12, optional – default luna curentă)
+ * Query params: ?month=11 (1-12, optional – default luna curentă)
  */
 router.get('/events', async (req, res) => {
   try {
@@ -64,24 +62,35 @@ router.get('/events', async (req, res) => {
 /**
  * Body:
  * {
- *   userName: string,
- *   visitedLocationIds: number[],
- *   prefs: { genFilm, tipMancare, bautura, hobby }
+ *   userName | username | name: string,
+ *   visitedLocationIds | visitedIds: number[],
+ *   prefs | preferences: object
  * }
  */
 router.post('/completion-message', async (req, res) => {
   try {
-    const { userName, visitedLocationIds = [], prefs = {} } = req.body;
+    const body = req.body || {};
 
-    if (!userName || typeof userName !== 'string') {
-      return res.status(400).json({ error: 'Câmpul `userName` este obligatoriu.' });
-    }
-    if (!Array.isArray(visitedLocationIds) || visitedLocationIds.length === 0) {
-      return res.status(400).json({ error: 'Lista `visitedLocationIds` nu poate fi goală.' });
-    }
+    const rawName = body.userName ?? body.username ?? body.name;
+    const userName = (typeof rawName === 'string' && rawName.trim().length > 0)
+      ? rawName.trim()
+      : 'Exploratorule';
 
-    const visited = LOCATIONS.filter(l => visitedLocationIds.includes(l.id));
-    const result  = await generateCompletionMessage(userName.trim(), visited, prefs);
+    const rawVisited = body.visitedLocationIds ?? body.visitedIds ?? body.visitedLocations ?? body.locations ?? [];
+    
+    // Extrage id-urile numerice dacă sunt transmise ca array de numere sau obiecte
+    const visitedIds = Array.isArray(rawVisited)
+      ? rawVisited.map(item => (typeof item === 'object' && item !== null ? (item.id ?? item.locationId) : item))
+                  .map(Number)
+                  .filter(n => !isNaN(n) && n > 0)
+      : [];
+
+    const rawPrefs = body.prefs ?? body.preferences ?? {};
+
+    // Căutăm locațiile complete pe baza ID-urilor transmise
+    const visitedLocations = LOCATIONS.filter(l => visitedIds.includes(l.id));
+
+    const result = await generateCompletionMessage(userName, visitedLocations, rawPrefs);
     return res.json({ success: true, ...result });
   } catch (err) {
     console.error('[POST /completion-message]', err);
