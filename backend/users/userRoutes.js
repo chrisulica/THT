@@ -16,6 +16,11 @@ import { requireAuth } from './authMiddleware.js';
 
 const router = Router();
 
+// GET /api/users
+router.get('/', (req, res) => {
+  res.json({ message: 'Users module endpoint is working' });
+});
+
 // Public
 router.post('/register', register);
 router.post('/login',    login);
