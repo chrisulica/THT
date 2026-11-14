@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+#Chris le-a pus (date de claudiu):
+.idea/
+.DS_Store
+Thumbs.db
