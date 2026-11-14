@@ -402,6 +402,151 @@ paths:
         '201':
           description: Card de bingo nou creat cu succes (returnează noul bingoId)
 
+  /hunt/bingos/active:
+    get:
+      summary: Obține cardul de bingo activ (în desfășurare) al utilizatorului
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Cardul de bingo activ sau mesaj dacă nu există niciun card în desfășurare
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hasActiveCard:
+                    type: boolean
+                    example: true
+                  bingoId:
+                    type: string
+                    example: bingo_demo_activ
+                  card:
+                    type: object
+                    description: Detaliile complete ale cardului activ
+                  locations:
+                    type: array
+                    description: Lista celor 9 locații de pe card (cu id, location_id, locationId)
+                    items:
+                      type: object
+                  route:
+                    type: object
+                    properties:
+                      locations:
+                        type: array
+                        items:
+                          type: object
+
+  /hunt/bingos/completed:
+    get:
+      summary: Obține lista cardurilor de bingo finalizate anterior de utilizator
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Listă de carduri bingo finalizate asociate utilizatorului
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    bingoId:
+                      type: string
+                      example: bingo_demo_completed
+                    userId:
+                      type: string
+                    dayNumber:
+                      type: integer
+                      example: 1
+                    totalDays:
+                      type: integer
+                      example: 3
+                    createdAt:
+                      type: string
+                      format: date-time
+                    completed:
+                      type: boolean
+                      example: true
+                    completedAt:
+                      type: string
+                      format: date-time
+                    albumPhoto:
+                      type: string
+                      example: https://images.unsplash.com/photo-1584448141569-69f342da535c
+                    completionMessage:
+                      type: string
+                      example: Felicitări! Ești un adevărat timișorean!
+                    locations:
+                      type: array
+                      items:
+                        type: object
+
+  /hunt/gallery:
+    get:
+      summary: Obține galeria personală a utilizatorului cu toate pozele (BeReal și albume)
+      tags:
+        - Treasure Hunt handling
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Galeria foto a utilizatorului cu pozele de la locații și pozele festive de album
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: demo_user
+                  totalPhotos:
+                    type: integer
+                    example: 13
+                  albumPhotos:
+                    type: array
+                    description: Pozele de album generate la finalizarea cardurilor
+                    items:
+                      type: object
+                      properties:
+                        bingoId:
+                          type: string
+                        dayNumber:
+                          type: integer
+                        photoUrl:
+                          type: string
+                        completionMessage:
+                          type: string
+                        completedAt:
+                          type: string
+                          format: date-time
+                  locationPhotos:
+                    type: array
+                    description: Pozele BeReal încărcate la vizitarea locațiilor
+                    items:
+                      type: object
+                      properties:
+                        bingoId:
+                          type: string
+                        dayNumber:
+                          type: integer
+                        locationId:
+                          type: string
+                        locationName:
+                          type: string
+                        category:
+                          type: string
+                        photoUrl:
+                          type: string
+                        visitedAt:
+                          type: string
+                          format: date-time
+
   /hunt/bingos/{bingoId}:
     get:
       summary: Obține detaliile și starea unui card de bingo specific după ID
