@@ -71,7 +71,7 @@ export default function Hunt() {
 
   const places = buildPlaces(tiles);
   const selected = places.find((p) => p.id === selectedId);
-
+  const isGameComplete = places.length > 0 && places.every((p) => p.visited);
   function selectPlace(p) {
     setGpsError(null);
     setSelectedId(p.id);
@@ -111,6 +111,21 @@ export default function Hunt() {
       ? { lat: position.lat, lng: position.lng, accuracy: position.accuracy }
       : null;
     await markVisitedMock(tile.id, blob, coords);
+    // În handlePhoto din hunt.jsx:
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      const existingPhotos = JSON.parse(localStorage.getItem('tht_photos') || '[]');
+      existingPhotos.unshift({
+        id: Date.now(),
+        src: base64data,
+        location: tile.name,
+        caption: `Am vizitat ${tile.name}!`,
+        timestamp: new Date().toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })
+      });
+      localStorage.setItem('tht_photos', JSON.stringify(existingPhotos));
+    };
+    reader.readAsDataURL(blob);
     setTiles((prev) => prev.map((t) => (t.id === tile.id ? { ...t, visited: true } : t)));
     setSelectedId(null);
   }
@@ -176,6 +191,41 @@ export default function Hunt() {
             )}
           </div>
         </div>
+      )}
+      {isGameComplete && (
+          <div style={{
+            position: 'absolute',
+            top: '20%',
+            left: '16px',
+            right: '16px',
+            background: 'white',
+            borderRadius: '16px',
+            padding: '24px',
+            textAlign: 'center',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+            zIndex: 2000
+          }}>
+            <h2 style={{ fontSize: '28px', margin: '0 0 8px 0' }}>🎉 BINGO! 🎉</h2>
+            <p>Felicitări! Ai descoperit și fotografiat toate obiectivele din Timișoara!</p>
+            <button
+                style={{
+                  marginTop: '16px',
+                  padding: '12px 20px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: '#2e9d5b',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  // Poți reseta traseul sau naviga la galerie
+                  alert('Traseu completat!');
+                }}
+            >
+              Ai terminat vânătoarea!
+            </button>
+          </div>
       )}
     </div>
   );
