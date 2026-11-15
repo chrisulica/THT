@@ -2,7 +2,6 @@
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100vh;
   height: 100dvh;
   z-index: 99999;
   background: #000000;
@@ -109,7 +108,7 @@
 }
 
 .cam-send {
-  background: #2e9d5b;
+  background: #8A2BE2;
   color: #ffffff;
 }
 

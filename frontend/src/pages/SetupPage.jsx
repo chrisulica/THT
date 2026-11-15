@@ -14,52 +14,52 @@ import './SetupPage.css';
 const QUESTIONS = [
   {
     id: 'drink',
-    label: '☕ Ce băutură preferi în oraș?',
+    label: '☕ Ce băutură preferi în oraș? ☕',
     options: [
-      { value: 'Cafea', label: '☕ Cafea de specialitate' },
-      { value: 'Ceai', label: '🍵 Ceai aromat' },
-      { value: 'Suc', label: '🥤 Suc proaspăt / Limonadă' },
-      { value: 'Alcool', label: '🍺 Bere craft / Vin bănățean' },
+      { value: 'Cafea', label: ' Cafea de specialitate' },
+      { value: 'Ceai', label: ' Ceai aromat' },
+      { value: 'Suc', label: ' Suc proaspăt / Limonadă' },
+      { value: 'Alcool', label: ' Bere craft / Vin bănățean' },
     ],
   },
   {
     id: 'domain',
-    label: '🧠 Ce domeniu te atrage cel mai mult?',
+    label: '🧠 Ce domeniu te atrage cel mai mult? 🧠',
     options: [
-      { value: 'Artă', label: '🎨 Artă & Cultură' },
-      { value: 'Istorie', label: '🏰 Istorie & Cetate' },
-      { value: 'Știință', label: '🔬 Știință & Tehnologie' },
-      { value: 'Natură', label: '🌿 Natură & Parcuri' },
+      { value: 'Artă', label: ' Artă & Cultură' },
+      { value: 'Istorie', label: ' Istorie & Cetate' },
+      { value: 'Știință', label: ' Știință & Tehnologie' },
+      { value: 'Natură', label: ' Natură & Parcuri' },
     ],
   },
   {
     id: 'hobby',
-    label: '🎯 Care este hobby-ul tău principal?',
+    label: '🎯 Care este hobby-ul tău principal? 🎯',
     options: [
-      { value: 'Sport', label: '🏃 Sport & Mișcare' },
-      { value: 'Citit', label: '📚 Citit & Librării' },
-      { value: 'Crafting', label: '✂️ Crafting & Ateliere' },
-      { value: 'Filme', label: '🎬 Filme & Cinema' },
+      { value: 'Sport', label: ' Sport & Mișcare' },
+      { value: 'Citit', label: ' Citit & Librării' },
+      { value: 'Crafting', label: ' Crafting & Ateliere' },
+      { value: 'Filme', label: ' Filme & Cinema' },
     ],
   },
   {
     id: 'food',
-    label: '🍽️ Ce fel de mâncare ai alege?',
+    label: '🍽️ Ce fel de mâncare ai alege? 🍽️',
     options: [
-      { value: 'Tradițional', label: '🍲 Tradițional bănățean' },
-      { value: 'Sărat', label: '🍔 Street food & Sărat' },
-      { value: 'Dulce', label: '🍰 Deserturi & Dulciuri' },
-      { value: 'Picant', label: '🌶️ Bucătărie picantă' },
+      { value: 'Tradițional', label: ' Tradițional bănățean' },
+      { value: 'Sărat', label: ' Street food & Sărat' },
+      { value: 'Dulce', label: ' Deserturi & Dulciuri' },
+      { value: 'Picant', label: ' Bucătărie picantă' },
     ],
   },
   {
     id: 'movie',
-    label: '🎬 Ce gen de film te descrie cel mai bine?',
+    label: '🎬 Ce gen de film te descrie cel mai bine? 🎬',
     options: [
-      { value: 'Comedie', label: '😄 Comedie relaxantă' },
-      { value: 'Acțiune', label: '⚡ Acțiune & Aventură' },
-      { value: 'Dramă', label: '🎭 Dramă profundă' },
-      { value: 'Romantic', label: '🌹 Romantic & Boem' },
+      { value: 'Comedie', label: ' Comedie relaxantă' },
+      { value: 'Acțiune', label: ' Acțiune & Aventură' },
+      { value: 'Dramă', label: ' Dramă profundă' },
+      { value: 'Romantic', label: ' Romantic & Boem' },
     ],
   },
 ];
@@ -176,16 +176,19 @@ export default function SetupPage() {
               Ieșire
             </button>
           )}
-          <h2>🧭 Quiz: Traseul tău prin Timișoara</h2>
+          <h2> Quiz: Traseul tău prin Timișoara</h2>
           <p>
-            Bun venit, <span className="user-highlight">{user?.username || 'exploratorule'}</span>! Alege-ți preferințele pentru un traseu 100% personalizat.
+            Bun venit, <span className="user-highlight">{user?.username || 'exploratorule'}</span>!
+          </p>
+          <p>
+            Alege-ți preferințele pentru un traseu 100% personalizat.
           </p>
         </header>
 
         <form onSubmit={handleSubmit} className="setup-form">
           {/* ── Timp & Distanță ── */}
           <section className="setup-section">
-            <h3 className="section-title">⏱️ Planificarea șederii</h3>
+            <h3 className="section-title"> Planificarea șederii</h3>
 
             {/* Zile */}
             <div className="question-group has-selection">
@@ -286,7 +289,7 @@ export default function SetupPage() {
           {error && <div className="form-error-banner">⚠️ {error}</div>}
 
           <button type="submit" className="btn-generate" disabled={loading}>
-            {loading ? '🤖 Se generează traseul tău AI…' : '🗺️ Generează Traseul Bingo'}
+            {loading ? '🤖 Se generează traseul tău AI…' : ' Generează Traseul Bingo'}
           </button>
         </form>
       </div>

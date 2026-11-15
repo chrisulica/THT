@@ -480,7 +480,7 @@ export default function Hunt() {
               target="_blank"
               rel="noreferrer"
             >
-              🧭 Navighează
+                Navighează
             </a>
 
             {selected.visited ? (

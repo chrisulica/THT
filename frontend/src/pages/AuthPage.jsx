@@ -47,7 +47,6 @@ export default function AuthPage() {
       <div className="auth-card">
         {/* Header */}
         <div className="auth-header">
-          <span className="auth-emoji">🗺️</span>
           <h1>Treasure Hunt Timișoara</h1>
           <p>Descoperă orașul prin aventuri personalizate</p>
         </div>

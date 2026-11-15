@@ -204,7 +204,7 @@ export default function Camera({ onConfirm }) {
 
       {step === 'idle' && (
         <button className="btn-photo" onClick={startBeReal} disabled={busy}>
-          {busy ? 'Se procesează…' : '📸 BeReal: Monument + Selfie'}
+          {busy ? 'Se procesează…' : '📸 Monument + Selfie'}
         </button>
       )}
 
@@ -226,7 +226,7 @@ export default function Camera({ onConfirm }) {
                     }}
                     onClick={() => frontInputRef.current?.click()}
                 >
-                    <span style={{ fontSize: '48px', marginBottom: '16px' }}>🤳</span>
+                    <span style={{ fontSize: '48px', marginBottom: '16px' }}></span>
                     <h2 style={{ fontSize: '26px', margin: '0 0 10px 0', fontFamily: 'Playfair Display, serif' }}>
                         Acum urmează selfie-ul!
                     </h2>

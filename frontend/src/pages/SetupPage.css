@@ -248,3 +248,11 @@
   transform: none;
   box-shadow: none;
 }
+@media (max-width: 600px) {
+  .logout-link-btn {
+    position: static;
+    display: block;
+    margin-left: auto;
+    margin-bottom: 8px;
+  }
+}
