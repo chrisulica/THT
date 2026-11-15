@@ -78,15 +78,31 @@ export default function FinalAlbumModal({ places = [], photos = [], onReset, onC
       ctx.letterSpacing = '6px';
       ctx.fillText('ALBUMUL TĂU DE CĂLĂTORIE', canvas.width / 2, 95);
 
+      // Resetăm letterSpacing la 0px pentru restul textelor!
+      ctx.letterSpacing = '0px';
+
       // Titlu principal
       ctx.font = '800 68px "Playfair Display", Georgia, serif';
       ctx.fillStyle = '#32174d';
       ctx.fillText('TIMIȘOARA', canvas.width / 2, 175);
 
-      // Mesaj de felicitare aleatoriu
-      ctx.font = 'italic 500 24px "Playfair Display", Georgia, serif';
+      // Mesaj de felicitare aleatoriu (cu încadrare automată în interiorul chenarului)
+      ctx.font = 'italic 500 23px "Playfair Display", Georgia, serif';
       ctx.fillStyle = '#32174d';
-      ctx.fillText(`„${congratulationMessage}”`, canvas.width / 2, 220);
+      const fullMsg = `„${congratulationMessage}”`;
+      const maxMsgWidth = canvas.width - 140; // Lasă margine sigură față de bordură
+
+      if (ctx.measureText(fullMsg).width <= maxMsgWidth) {
+        ctx.fillText(fullMsg, canvas.width / 2, 222, maxMsgWidth);
+      } else {
+        // Împarte mesajul pe 2 rânduri echilibrate dacă este prea lung
+        const words = fullMsg.split(' ');
+        const mid = Math.ceil(words.length / 2);
+        const line1 = words.slice(0, mid).join(' ');
+        const line2 = words.slice(mid).join(' ');
+        ctx.fillText(line1, canvas.width / 2, 214, maxMsgWidth);
+        ctx.fillText(line2, canvas.width / 2, 242, maxMsgWidth);
+      }
 
       // 3. Grid 2 coloane x 3 linii pentru cele 6 Polaroid-uri
       const cols = 2;
