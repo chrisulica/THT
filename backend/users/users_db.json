@@ -6,5 +6,13 @@
     "passwordHash": "$2b$12$..V3wJJG9H9nmh/AkOFVVOwDJAL2U20a1Xi51S7ylwp8H10zU/Bh.",
     "role": "user",
     "createdAt": "2026-11-14T23:16:53.017Z"
+  },
+  {
+    "id": "8d1b5704-c103-4646-a9b8-9002e60c0e0c",
+    "username": "casiana1",
+    "email": "casianatomescu@yahoo.com",
+    "passwordHash": "$2b$12$yEOI6RcTGWsN3yK2Wc4HmulpgphwQLwTLRivWxGDSrZpgZSBwH6eK",
+    "role": "user",
+    "createdAt": "2026-11-15T00:11:36.299Z"
   }
 ]

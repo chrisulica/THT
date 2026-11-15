@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function AuthPage() {
-  const { login, register } = useAuth();
+  const { login, register, hasCompletedQuiz } = useAuth();
   const navigate = useNavigate();
 
   const [mode, setMode]       = useState('login'); // 'login' | 'register'
@@ -30,7 +30,11 @@ export default function AuthPage() {
       } else {
         await register(form.username, form.email, form.password);
       }
-      navigate('/quiz');
+      if (hasCompletedQuiz && hasCompletedQuiz()) {
+        navigate('/map');
+      } else {
+        navigate('/quiz');
+      }
     } catch (err) {
       setError(err.message);
     } finally {

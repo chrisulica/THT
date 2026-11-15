@@ -51,7 +51,7 @@ export function cleanString(val) {
 export function normalizeDomenii(input) {
   if (!input) return [];
 
-  let items = [];
+  let items;
   if (Array.isArray(input)) {
     items = input;
   } else if (typeof input === 'string') {
@@ -319,8 +319,8 @@ async function generateBingoCard(rawPrefs = {}, alreadyVisited = [], bingoSize =
   const normPrefs  = normalizePreferences(rawPrefs);
   const visitedIds = normalizeVisitedList(alreadyVisited);
 
-  // Validare dimensiune card (fallback 9 dacă e invalid)
-  const targetCount = [5, 9].includes(Number(bingoSize)) ? Number(bingoSize) : 9;
+  // Validare dimensiune card (default 6 pentru formatul 2x3 Bingo)
+  const targetCount = [5, 6, 9].includes(Number(bingoSize)) ? Number(bingoSize) : 6;
 
   // Calcul anotimp
   const parsedDate = dateInput ? new Date(dateInput) : new Date();

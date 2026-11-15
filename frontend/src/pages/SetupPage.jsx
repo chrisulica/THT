@@ -119,13 +119,14 @@ export default function SetupPage() {
           hobby: prefs.hobby,
         },
         alreadyVisited: [],
-        bingoSize: 5, // 5 locații per zi pentru o progresie plăcută
+        bingoSize: 6, // 6 locații pentru grila 2x3 Bingo și albumul final
       };
 
       const data = await aiApi.generateBingo(payload);
 
       if (!data || !Array.isArray(data.locations) || data.locations.length === 0) {
-        throw new Error('Serverul nu a putut genera locații pentru aceste preferințe.');
+        setError('Serverul nu a putut genera locații pentru aceste preferințe.');
+        return;
       }
 
       // Salvează sesiunea de Treasure Hunt pe mai multe zile în localStorage

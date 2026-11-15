@@ -23,9 +23,9 @@ router.post('/generate-bingo', async (req, res) => {
     // Suport flexibil pentru alreadyVisited / visitedLocations
     const alreadyVisited = body.alreadyVisited || body.visitedLocations || body.visited || [];
 
-    // Dimensiune card: acceptă 5 sau 9 (default 9 dacă e omis sau diferit)
-    const rawSize = body.bingoSize ?? body.size ?? 9;
-    const bingoSize = [5, 9].includes(Number(rawSize)) ? Number(rawSize) : 9;
+    // Dimensiune card: acceptă 5, 6 sau 9 (default 6 pentru formatul 2x3 Bingo)
+    const rawSize = body.bingoSize ?? body.size ?? 6;
+    const bingoSize = [5, 6, 9].includes(Number(rawSize)) ? Number(rawSize) : 6;
 
     const date = body.date;
     const now = date ? new Date(date) : new Date();

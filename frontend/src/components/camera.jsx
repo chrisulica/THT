@@ -1,5 +1,70 @@
 import { useState, useRef, useEffect } from 'react';
 import './camera.css';
+import { createPortal } from 'react-dom';
+
+function loadImg(f) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = rej;
+    img.src = URL.createObjectURL(f);
+  });
+}
+
+// Desenează imaginea combinată BeReal (Picture-in-Picture) pe Canvas
+function createBeRealComposite(mainFile, cornerFile) {
+  return new Promise((resolve, reject) => {
+    Promise.all([loadImg(mainFile), loadImg(cornerFile)])
+      .then(([imgMain, imgCorner]) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 1440;
+        const ctx = canvas.getContext('2d');
+
+        // 1. Imaginea principală pe tot ecranul
+        ctx.drawImage(imgMain, 0, 0, canvas.width, canvas.height);
+
+        // 2. Imaginea mică în colț (Picture-in-Picture stânga-sus)
+        const pipW = 280;
+        const pipH = 370;
+        const pipX = 40;
+        const pipY = 50;
+        const radius = 24;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(pipX + radius, pipY);
+        ctx.arcTo(pipX + pipW, pipY, pipX + pipW, pipY + pipH, radius);
+        ctx.arcTo(pipX + pipW, pipY + pipH, pipX, pipY + pipH, radius);
+        ctx.arcTo(pipX, pipY + pipH, pipX, pipY, radius);
+        ctx.arcTo(pipX, pipY, pipX + pipW, pipY, radius);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(imgCorner, pipX, pipY, pipW, pipH);
+        ctx.restore();
+
+        // Contur alb elegant
+        ctx.save();
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(pipX + radius, pipY);
+        ctx.arcTo(pipX + pipW, pipY, pipX + pipW, pipY + pipH, radius);
+        ctx.arcTo(pipX + pipW, pipY + pipH, pipX, pipY + pipH, radius);
+        ctx.arcTo(pipX, pipY + pipH, pipX, pipY, radius);
+        ctx.arcTo(pipX, pipY, pipX + pipW, pipY, radius);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Canvas blob generation failed'));
+        }, 'image/jpeg', 0.88);
+      })
+      .catch(reject);
+  });
+}
 
 export default function Camera({ onConfirm }) {
   const backInputRef = useRef(null);
@@ -22,7 +87,7 @@ export default function Camera({ onConfirm }) {
     };
   }, [compositeUrl]);
 
-  // Numărătoarea inversă de 3 secunde
+  // Numărătoarea inversă de 3 secunde pentru selfie
   useEffect(() => {
     if (step !== 'countdown') return;
 
@@ -44,7 +109,7 @@ export default function Camera({ onConfirm }) {
         setCompositeUrl(URL.createObjectURL(blob));
       });
     }
-  }, [isSwapped]);
+  }, [isSwapped, backPhoto, frontPhoto, step]);
 
   function startBeReal() {
     setBackPhoto(null);
@@ -92,64 +157,19 @@ export default function Camera({ onConfirm }) {
     }
   }
 
-  // Desenează imaginea combinată pe Canvas
-  function createBeRealComposite(mainFile, cornerFile) {
-    return new Promise(async (resolve) => {
-      const loadImg = (f) =>
-          new Promise((res) => {
-            const img = new Image();
-            img.onload = () => res(img);
-            img.src = URL.createObjectURL(f);
-          });
-
-      const [imgMain, imgCorner] = await Promise.all([loadImg(mainFile), loadImg(cornerFile)]);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = 1080;
-      canvas.height = 1440;
-      const ctx = canvas.getContext('2d');
-
-      // 1. Imaginea principală pe tot ecranul
-      ctx.drawImage(imgMain, 0, 0, canvas.width, canvas.height);
-
-      // 2. Imaginea mică în colț
-      const pipW = 280;
-      const pipH = 370;
-      const pipX = 40;
-      const pipY = 50;
-      const radius = 24;
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(pipX + radius, pipY);
-      ctx.arcTo(pipX + pipW, pipY, pipX + pipW, pipY + pipH, radius);
-      ctx.arcTo(pipX + pipW, pipY + pipH, pipX, pipY + pipH, radius);
-      ctx.arcTo(pipX, pipY + pipH, pipX, pipY, radius);
-      ctx.arcTo(pipX, pipY, pipX + pipW, pipY, radius);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(imgCorner, pipX, pipY, pipW, pipH);
-      ctx.restore();
-
-      // Contur alb
-      ctx.save();
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.moveTo(pipX + radius, pipY);
-      ctx.arcTo(pipX + pipW, pipY, pipX + pipW, pipY + pipH, radius);
-      ctx.arcTo(pipX + pipW, pipY + pipH, pipX, pipY + pipH, radius);
-      ctx.arcTo(pipX, pipY + pipH, pipX, pipY, radius);
-      ctx.arcTo(pipX, pipY, pipX + pipW, pipY, radius);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.restore();
-
-      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
-    });
+  function handleDownload() {
+    if (!compositeBlob) return;
+    const url = URL.createObjectURL(compositeBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bereal-timisoara-${Date.now()}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  // Salvare securizată: dacă nu ești la locație, te oprește și arată eroarea!
+  // Salvare securizată: dacă nu ești la locație (în Mod Real), te oprește și arată eroarea!
   async function handleSend() {
     setBusy(true);
     setErrorMsg(null);
@@ -164,126 +184,141 @@ export default function Camera({ onConfirm }) {
   }
 
   return (
-      <>
-        <input
-            ref={backInputRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={handleBackPhoto}
-            style={{ display: 'none' }}
-        />
-        <input
-            ref={frontInputRef}
-            type="file"
-            accept="image/*"
-            capture="user"
-            onChange={handleFrontPhoto}
-            style={{ display: 'none' }}
-        />
+    <>
+      <input
+        ref={backInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleBackPhoto}
+        style={{ display: 'none' }}
+      />
+      <input
+        ref={frontInputRef}
+        type="file"
+        accept="image/*"
+        capture="user"
+        onChange={handleFrontPhoto}
+        style={{ display: 'none' }}
+      />
 
-        {step === 'idle' && (
-            <button className="btn-photo" onClick={startBeReal} disabled={busy}>
-              {busy ? 'Se procesează…' : '📸 BeReal: Monument + Selfie'}
-            </button>
-        )}
+      {step === 'idle' && (
+        <button className="btn-photo" onClick={startBeReal} disabled={busy}>
+          {busy ? 'Se procesează…' : '📸 BeReal: Monument + Selfie'}
+        </button>
+      )}
 
-        {step === 'countdown' && (
-            <div
-                style={{
-                  position: 'fixed',
-                  inset: 0,
-                  zIndex: 3000,
-                  background: 'rgba(0,0,0,0.85)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  textAlign: 'center',
-                  padding: '20px',
-                }}
-                onClick={() => frontInputRef.current?.click()}
-            >
-              <span style={{ fontSize: '48px', marginBottom: '16px' }}>🤳</span>
-              <h2 style={{ fontSize: '24px', margin: '0 0 10px 0' }}>Acum urmează selfie-ul!</h2>
-              <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>Pregătește-te...</p>
-              <div
-                  style={{
-                    fontSize: '72px',
-                    fontWeight: 'bold',
-                    color: '#2e9d5b',
-                    background: 'white',
-                    width: '110px',
-                    height: '110px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 0 25px rgba(46,157,91,0.6)',
-                  }}
-              >
-                {countdown > 0 ? countdown : '📸'}
-              </div>
-              <small style={{ marginTop: '20px', opacity: 0.7 }}>Atinge ecranul pentru a sări numărătoarea</small>
-            </div>
-        )}
-
-        {step === 'done' && compositeUrl && (
-            <div className="cam-preview">
-              {/* Atinge imaginea pentru a comuta între camere */}
-              <div style={{ position: 'relative', flex: 1, cursor: 'pointer' }} onClick={() => setIsSwapped(!isSwapped)}>
-                <img src={compositeUrl} alt="BeReal Preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-
-                {/* Buton vizual de comutare */}
-                <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsSwapped(!isSwapped);
-                    }}
+        {step === 'countdown' &&
+            createPortal(
+                <div
                     style={{
-                      position: 'absolute',
-                      top: '20px',
-                      right: '20px',
-                      background: 'rgba(0,0,0,0.65)',
-                      color: 'white',
-                      border: '1px solid rgba(255,255,255,0.4)',
-                      borderRadius: '20px',
-                      padding: '8px 14px',
-                      fontSize: '13px',
-                      fontWeight: 'bold',
-                      cursor: 'pointer',
-                      backdropFilter: 'blur(4px)'
+                        position: 'fixed',
+                        inset: 0,
+                        zIndex: 99999,
+                        background: 'rgba(50, 23, 77, 0.96)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        textAlign: 'center',
+                        padding: '20px',
                     }}
+                    onClick={() => frontInputRef.current?.click()}
                 >
-                  🔄 Schimbă perspectiva
-                </button>
-              </div>
+                    <span style={{ fontSize: '48px', marginBottom: '16px' }}>🤳</span>
+                    <h2 style={{ fontSize: '26px', margin: '0 0 10px 0', fontFamily: 'Playfair Display, serif' }}>
+                        Acum urmează selfie-ul!
+                    </h2>
+                    <p style={{ color: '#f5f7e9', margin: '0 0 24px 0', opacity: 0.85 }}>Pregătește-te...</p>
+                    <div
+                        style={{
+                            fontSize: '64px',
+                            fontWeight: 'bold',
+                            color: '#32174d',
+                            background: '#9DB288',
+                            width: '110px',
+                            height: '110px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 0 30px rgba(157, 178, 136, 0.8)',
+                        }}
+                    >
+                        {countdown > 0 ? countdown : '📸'}
+                    </div>
+                    <small style={{ marginTop: '24px', opacity: 0.8, color: '#f5f7e9' }}>
+                        Atinge ecranul pentru a sări numărătoarea
+                    </small>
+                </div>,
+                document.body
+            )}
 
-              {errorMsg && (
-                  <div style={{
-                    background: '#fce8e6',
-                    color: '#c5221f',
-                    padding: '12px',
-                    textAlign: 'center',
-                    fontWeight: 'bold',
-                    fontSize: '14px'
-                  }}>
-                    ⚠️ {errorMsg}
-                  </div>
-              )}
+        {step === 'done' &&
+            compositeUrl &&
+            createPortal(
+                <div className="cam-preview">
+                    {/* Buton X stânga-sus */}
+                    <button
+                        type="button"
+                        className="cam-close-btn"
+                        onClick={() => setStep('idle')}
+                    >
+                        ✕
+                    </button>
 
-              <div className="cam-actions">
-                <button className="cam-btn cam-retake" onClick={startBeReal} disabled={busy}>
-                  Reia
-                </button>
-                <button className="cam-btn cam-send" onClick={handleSend} disabled={busy}>
-                  {busy ? 'Se verifică…' : '✓ Confirmă BeReal'}
-                </button>
-              </div>
-            </div>
-        )}
-      </>
+                    {/* Buton Schimbă perspectiva dreapta-sus */}
+                    <button
+                        type="button"
+                        className="cam-swap-btn"
+                        onClick={() => setIsSwapped(!isSwapped)}
+                    >
+                        🔄 Schimbă perspectiva
+                    </button>
+
+                    {/* Poza centrată pe mijlocul ecranului negru */}
+                    <div
+                        className="cam-preview-stage"
+                        onClick={() => setIsSwapped(!isSwapped)}
+                    >
+                        <img src={compositeUrl} alt="BeReal Preview" />
+                    </div>
+
+                    {errorMsg && (
+                        <div className="cam-error">⚠️ {errorMsg}</div>
+                    )}
+
+                    {/* Bara de jos cu Reia, Descarcă, Trimite */}
+                    <div className="cam-actions">
+                        <button
+                            type="button"
+                            className="cam-btn cam-retake"
+                            onClick={startBeReal}
+                            disabled={busy}
+                        >
+                            Reia
+                        </button>
+                        <button
+                            type="button"
+                            className="cam-btn cam-download"
+                            onClick={handleDownload}
+                            disabled={busy}
+                        >
+                            📥 Descarcă
+                        </button>
+                        <button
+                            type="button"
+                            className="cam-btn cam-send"
+                            onClick={handleSend}
+                            disabled={busy}
+                        >
+                            {busy ? 'Se verifică…' : 'Trimite'}
+                        </button>
+                    </div>
+                </div>,
+                document.body
+            )}
+    </>
   );
 }

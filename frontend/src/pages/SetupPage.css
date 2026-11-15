@@ -2,47 +2,51 @@
 
 .setup-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf7 100%);
+  background-color: #f5f7e9;
   padding: 24px 16px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
 .setup-container {
   width: 100%;
   max-width: 720px;
   background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  padding: 32px 28px;
+  border: 1.5px solid #9DB288;
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(50, 23, 77, 0.08);
+  padding: 36px 30px;
   box-sizing: border-box;
 }
 
 .setup-header {
   text-align: center;
-  margin-bottom: 28px;
-  border-bottom: 1px solid #edf2f7;
-  padding-bottom: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #edf1e4;
+  padding-bottom: 22px;
   position: relative;
 }
 
 .setup-header h2 {
-  font-size: 26px;
-  font-weight: 800;
-  color: #1a202c;
-  margin: 0 0 8px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #32174d;
+  margin: 0 0 10px;
 }
 
 .setup-header p {
-  color: #718096;
+  color: #32174d;
+  opacity: 0.8;
   font-size: 15px;
   margin: 0;
 }
 
 .setup-header .user-highlight {
-  color: #1a73e8;
+  color: #8A2BE2;
   font-weight: 700;
 }
 
@@ -52,15 +56,17 @@
   right: 0;
   background: none;
   border: none;
-  color: #e53e3e;
+  color: #d93025;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 6px;
+  font-family: 'Source Sans 3', sans-serif;
 }
+
 .logout-link-btn:hover {
-  background: #fff5f5;
+  background: #fce8e6;
 }
 
 .setup-form {
@@ -76,9 +82,10 @@
 }
 
 .section-title {
-  font-size: 17px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 19px;
   font-weight: 700;
-  color: #2d3748;
+  color: #32174d;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -86,23 +93,23 @@
 }
 
 .question-group {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 16px 18px;
+  background: #fdfefb;
+  border: 1px solid #edf1e4;
+  border-radius: 16px;
+  padding: 18px 20px;
   transition: all 0.2s ease;
 }
 
 .question-group:focus-within,
 .question-group.has-selection {
-  border-color: #cbd5e1;
+  border-color: #9DB288;
   background: #ffffff;
 }
 
 .question-label {
   font-size: 15px;
   font-weight: 600;
-  color: #334155;
+  color: #32174d;
   margin: 0 0 12px;
   display: flex;
   align-items: center;
@@ -111,9 +118,9 @@
 
 .selected-badge {
   font-size: 12px;
-  color: #1a73e8;
-  background: #e8f0fe;
-  padding: 2px 8px;
+  color: #32174d;
+  background: #9DB288;
+  padding: 3px 10px;
   border-radius: 12px;
   font-weight: 700;
 }
@@ -131,10 +138,11 @@
   justify-content: center;
   gap: 6px;
   padding: 12px 14px;
-  border: 2px solid #e2e8f0;
-  background: #ffffff;
-  color: #475569;
-  border-radius: 12px;
+  border: 1.5px solid #edf1e4;
+  background: #f5f7e9;
+  color: #32174d;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -144,20 +152,19 @@
 }
 
 .option-chip:hover {
-  border-color: #93c5fd;
-  color: #1e3a8a;
-  background: #f0f7ff;
+  border-color: #9DB288;
+  background: #eef3e5;
   transform: translateY(-1px);
 }
 
 /* Opțiunea activă / selectată */
 .option-chip.selected {
-  border-color: #1a73e8;
-  background: #1a73e8;
+  border-color: #8A2BE2;
+  background: #8A2BE2;
   color: #ffffff;
   font-weight: 700;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.35);
+  box-shadow: 0 6px 16px rgba(138, 43, 226, 0.35);
 }
 
 .option-chip.selected .check-icon {
@@ -176,9 +183,10 @@
 .pill-btn {
   padding: 8px 14px;
   border-radius: 20px;
-  border: 1.5px solid #cbd5e1;
+  border: 1.5px solid #9DB288;
   background: #ffffff;
-  color: #475569;
+  color: #32174d;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -186,30 +194,29 @@
 }
 
 .pill-btn:hover {
-  border-color: #93c5fd;
-  background: #f8fafc;
+  background: #f5f7e9;
 }
 
 .pill-btn.active {
-  background: #1a73e8;
-  border-color: #1a73e8;
+  background: #8A2BE2;
+  border-color: #8A2BE2;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+  box-shadow: 0 3px 10px rgba(138, 43, 226, 0.3);
 }
 
 .range-slider {
   width: 100%;
   margin-top: 10px;
-  accent-color: #1a73e8;
+  accent-color: #8A2BE2;
   cursor: pointer;
 }
 
 .form-error-banner {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #b91c1c;
+  background: #fce8e6;
+  border: 1px solid #f5c6cb;
+  color: #c5221f;
   padding: 12px 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
 }
@@ -217,24 +224,26 @@
 .btn-generate {
   width: 100%;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+  background: #8A2BE2;
   color: #ffffff;
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
+  font-family: 'Source Sans 3', sans-serif;
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(26, 115, 232, 0.35);
+  box-shadow: 0 6px 20px rgba(138, 43, 226, 0.35);
   transition: all 0.2s ease;
 }
 
 .btn-generate:hover:not(:disabled) {
+  opacity: 0.92;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(26, 115, 232, 0.45);
+  box-shadow: 0 8px 24px rgba(138, 43, 226, 0.45);
 }
 
 .btn-generate:disabled {
-  background: #94a3b8;
+  background: #ccc;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;

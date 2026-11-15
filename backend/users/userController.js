@@ -49,8 +49,14 @@ export async function register(req, res) {
       return res.status(400).json({ error: 'Password must be at least 8 characters.' });
     }
 
-    if (userStore.emailExists(email)) {
-      return res.status(409).json({ error: 'Email already in use.' });
+    if (userStore.emailExists(email) || userStore.usernameExists(username)) {
+      if (userStore.emailExists(email) && userStore.usernameExists(username)) {
+        return res.status(409).json({ error: 'Acest email și nume de utilizator sunt deja înregistrate.' });
+      }
+      if (userStore.emailExists(email)) {
+        return res.status(409).json({ error: 'Acest email este deja înregistrat.' });
+      }
+      return res.status(409).json({ error: 'Acest nume de utilizator este deja înregistrat.' });
     }
 
     // --- Hashing & persistence ---

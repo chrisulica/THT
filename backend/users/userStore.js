@@ -51,5 +51,13 @@ export const userStore = {
 
   /** Check whether an email is already taken. */
   emailExists: (email) =>
-    users.some((u) => u.email.toLowerCase() === email.toLowerCase()),
+    users.some((u) => u.email && u.email.toLowerCase() === email.toLowerCase().trim()),
+
+  /** Find by username (case-insensitive). */
+  findByUsername: (username) =>
+    users.find((u) => u.username && u.username.toLowerCase() === username.toLowerCase().trim()) || null,
+
+  /** Check whether a username is already taken. */
+  usernameExists: (username) =>
+    users.some((u) => u.username && u.username.toLowerCase() === username.toLowerCase().trim()),
 };

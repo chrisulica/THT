@@ -1,62 +1,254 @@
+/* bingoCard.css - Treasure Hunt Timișoara Color Scheme */
+
 .bingo-card {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1000;
-  background: #fff; border-radius: 18px 18px 0 0;
-  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -2px 16px rgba(0,0,0,.25);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-top: 2.5px solid #9DB288;
+  border-radius: 22px 22px 0 0;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 20px rgba(50, 23, 77, 0.15);
   max-height: 52dvh;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
-.bingo-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.bingo-progress-text { font-weight: 700; font-size: 15px; min-width: 36px; }
-.bingo-progress-bar { flex: 1; height: 8px; background: #e3e3e3; border-radius: 4px; overflow: hidden; }
-.bingo-progress-fill { height: 100%; background: #2e9d5b; transition: width .4s ease; }
+.bingo-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 
-.bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bingo-progress-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #32174d;
+  min-width: 40px;
+}
+
+.bingo-progress-bar {
+  flex: 1;
+  height: 9px;
+  background: #edf1e4;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bingo-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9DB288 0%, #8A2BE2 100%);
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+/* Grilă 3 coloane x 2 linii (sau 2 col pe ecrane mici) */
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 360px) {
+  .bingo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 .bingo-tile {
-  position: relative; display: flex; flex-direction: column; align-items: center;
-  gap: 2px; padding: 8px 4px; min-height: 92px;
-  background: #f4f4f4; border: 2px solid transparent; border-radius: 12px;
-  font: inherit; color: #222; cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  min-height: 96px;
+  background: #f5f7e9;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: #32174d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
-.bingo-tile.visited { background: #e4f5ea; border-color: #2e9d5b; }
-.bingo-tile.selected { border-color: #1a73e8; }
-.tile-number {
-  position: absolute; top: 4px; left: 6px;
-  font-size: 11px; font-weight: 700; color: #888;
-}
-.tile-icon { font-size: 26px; line-height: 1.1; }
-.tile-name {
-  font-size: 12px; font-weight: 600; text-align: center; line-height: 1.15;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-}
-.tile-state { font-size: 11px; color: #666; }
-.bingo-tile.visited .tile-state { color: #2e9d5b; font-weight: 700; }
 
-/* panoul locației */
+.bingo-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(50, 23, 77, 0.08);
+}
+
+.bingo-tile.visited {
+  background: #edf4e8;
+  border-color: #9DB288;
+}
+
+.bingo-tile.selected {
+  border-color: #8A2BE2;
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+}
+
+.tile-number {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8A2BE2;
+}
+
+.tile-icon {
+  font-size: 28px;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+.tile-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  color: #32174d;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tile-state {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7a6e87;
+  margin-top: auto;
+}
+
+.bingo-tile.visited .tile-state {
+  color: #32174d;
+  font-weight: 700;
+}
+
+/* Panoul locației selectate */
 .place-panel {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1100;
-  background: #fff; border-radius: 18px 18px 0 0;
-  padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
-  box-shadow: 0 -2px 16px rgba(0,0,0,.35);
-  max-height: 70dvh; overflow-y: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1150;
+  background: #ffffff;
+  border-top: 3px solid #8A2BE2;
+  border-radius: 22px 22px 0 0;
+  padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 25px rgba(50, 23, 77, 0.2);
+  max-height: 70dvh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
-.panel-head { display: flex; align-items: center; gap: 10px; }
-.panel-icon { font-size: 32px; }
-.panel-title { flex: 1; margin: 0; font-size: 20px; }
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.panel-icon {
+  font-size: 34px;
+}
+
+.panel-title {
+  flex: 1;
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #32174d;
+}
+
 .panel-close {
-  border: none; background: #eee; border-radius: 50%;
-  width: 36px; height: 36px; font-size: 18px; cursor: pointer;
+  border: none;
+  background: #f5f7e9;
+  color: #32174d;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
 }
-.panel-blurb { margin: 12px 0; line-height: 1.45; color: #333; }
-.panel-actions { display: flex; flex-direction: column; gap: 8px; }
-.btn-nav, .btn-photo {
-  display: block; text-align: center; text-decoration: none;
-  padding: 14px; border-radius: 12px; border: none;
-  font: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+
+.panel-close:hover {
+  background: #8A2BE2;
+  color: #ffffff;
 }
-.btn-nav { background: #e8f0fe; color: #1a73e8; }
-.btn-photo { background: #1a73e8; color: #fff; }
-.btn-photo:disabled { background: #b5c7e6; }
-.panel-visited { color: #2e9d5b; font-weight: 700; }
+
+.panel-blurb {
+  margin: 14px 0;
+  line-height: 1.5;
+  color: #32174d;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-nav,
+.btn-photo {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-nav {
+  background: #f5f7e9;
+  color: #32174d;
+  border: 1.5px solid #9DB288;
+}
+
+.btn-nav:hover {
+  background: #edf2df;
+}
+
+.btn-photo {
+  background: #8A2BE2;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+}
+
+.btn-photo:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.btn-photo:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.panel-visited {
+  color: #32174d;
+  font-weight: 700;
+  background: #edf4e8;
+  border-left: 4px solid #9DB288;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
