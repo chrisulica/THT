@@ -5,8 +5,9 @@
  */
 
 const hostname = window.location.hostname;
-const BASE_URL = `http://${hostname}:5000/api`;
-
+const BASE_URL = import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/api`
+    : '/api';
 function getToken() {
   return localStorage.getItem('tht_token');
 }

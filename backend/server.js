@@ -15,7 +15,8 @@ const corsOptions = {
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     /^http:\/\/localhost:\d+$/,
-    /^http:\/\/127\.0\.0\.1:\d+$/
+    /^http:\/\/127\.0\.0\.1:\d+$/,
+    /\.trycloudflare\.com$/
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
